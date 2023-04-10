@@ -1,55 +1,57 @@
-En este repositorio centralizaremos toda la información relativa a los **Proyectos de Desarrollo de Aplicaciones Web del I.E.S Alixar**.
-Al continuación encontraremos los **apellidos y nombre** del alumno/a junto al **título de su proyecto**. El enlace nos dará acceso al repositorio del proyecto (no a la página GitHub del usuario).
 
-En este repositorio se debe incluir la documentación especificada en [Requerimientos y criterios a seguir en el desarrollo de los proyectos](https://github.com/iesalixar/plantilla_proyecto_iesalixar/wiki/a.---Criterios-comunes-para-todos-los-proyectos), así como las indicaciones que el tutor haya podido ir a realizando a lo largo del desarrollo del mismo.
+# WorkHourWizard
 
-El desarrollo de toda Aplicación Web requiere seguir un [proceso estructurado](https://github.com/iesalixar/plantilla_proyecto_iesalixar/wiki/w1.--PROCESO-ESTRUCTURADO-PARA-DESARROLLO-DE-APLICACIONES-WEB), este  de contenido de la wiki te puede ayudar.
-
-
----
-
-**Los párrafos anteriores son informativos y no deben aparecer en el reposotirio de los alumnos.**
-
----
-
-# Título del Proyecto
-
-#### Curso Escolar 20XX-20XX
-#### Autor: [Nombre del alumno autor](Enlace a su cuenta de gitHub)
-#### Tutor: [Nombre del profesor tutor](Enlace a su cuenta de gitHub)
-#### Fecha de Inicio: DD-MM-YYYY
-#### Fecha de Finalización: DD-MM-YYYY
+#### Curso Escolar 2022-2023
+#### Autor: [Antonio Alfonso González Rodríguez](https://github.com/antonioalfonsogr/PFC-WorkHourWizard)
+#### Tutor: [José María García Durán](https://github.com/iesalixar/plantilla_proyecto_iesalixar)
+#### Fecha de Inicio: 01-04-2023
+#### Fecha de Finalización: 14-06-2023
 
 ## Breve descripción del proyecto
 
-Si ya tienes una idea para tu aplicación, explícala brevemente. Si no es así, lo que realmente necesitas es **buscar un problema o necesidad a la que darle solución**, y estos **están por todas partes**. Así que trata de buscar problemas o necesidades en tu vida diaria y realiza una lista. Una vez que tengas una lista exhaustiva, ya puedes empezar a pensar en **cómo puedes resolverlos**.
+La aplicación web consiste en un gestor de horas de trabajo. En la que los usuarios trabajadores pueden seleccionar las horas disponibles que tienen esa semana, 
+y los usuarios gestores podrán seleccionar a los empleados que finalmente realicen el trabajo de cada hora entre los trabajadores disponibles.
 
-En este apartado el alumno debe hacer una breve descripción del proyecto que vaya a realizar. Esta descripción no será ua descripción detallada, será una presentación general con no más de 10 líneas.
+Esta misma lógica podría adaptarse para seleccionar horas libres, horas extras, días de vacaciones o similares, dependiendo de las necesidades del negocio que se quieran cubrir. 
 
 ## Definir el objetivo de la aplicación
-**Tener una gran idea** o encontrar un punto del mercado al que no se esté dando un producto o servicio es el punto de partida en cada nuevo proyecto. Antes de comenzar debes **definir claramente el propósito y la misión de la aplicación web**:
 
-- **¿Qué va a hacer la aplicación?**
-- **¿Cuál es su atractivo principal?** 
-- **¿Qué problema concreto va a resolver?** 
-- **¿Qué necesidad va a cubrir?**
+**Motivación**
+
+La idea surge al ver en una empresa que tiene empleados que trabajan por hora, los cuales periodiamente comunican las horas que tienen disponibles, y se asignan las horas de trabajo entre las horas dispobles de cada uno. Esta tarea se realiza con solo la ayuda de un excel y teniendo que recoger manualmente las horas disponibles de cada trabajador y adaptarlas a las horas de trabajo a cubrir. Con esta aplicación podría mejorarse los tiempos dedicados en esa tarea. 
+
+Aun así la principal motivación de esta aplicación es meramente académica. Permitiendome trabajar todas las áreas de los diferentes módulos del ciclo formativo.
+
+**Funcionalidades**
+
+Sin estar logueado solo será posible loguearse o registrarse como trabajador o gestor. 
+Los gestores deberán ser verificados por el administrador de la plataforma.
+
+**Los usuarios trabajadores:**
+
+Tendrán dos vistas. Una en la que verán un calendario de la semana actual. Con las horas que trabajan esta semana. Otra con un calendario de la próxima semana donde podrán seleccionar las horas disponibles para trabajar la próxima semana. El plazo para poner dicha horas serán lunes y martes.
+
+
+**Los usuarios gestores:**
+
+Tendrán también dos vistas. Una con el calendario de la semana actual, donde verán todas las horas con el trabajador/es que las realizan. La segunda con el calendario de la siguiente semana donde podrán seleccionar qué trabajador realiza cada hora de entre los disponibles. El plazo para que los gestores seleccionen los trabajadores será miércoles y jueves. Los viernes se podrá confirmar la semana para que el sistema esté preparado para realizar los cambios de semana.
+
+**Los usuarios administradores:**
+
+Podrán listar los usuarios trabajadores y gestores y realizar las gestiones de usuarios básicas. 
+
+**Stack Tecnológico.**
+
+El backend java-11 con spring-boot.
+
+La base de datos MySQL.
+
+El frontend Angular.
+
 
 ## Estructura del Proyecto
-
-En este apartado el alumno explicará el contenido del repositorio y de todas las carpetas relevantes del mismo. Para facilitar la gestión de la entrega, todo el código y documentación debe estar en este repositorio.
-
-Por lo anterior, un proyecto que contenga un Frontend en una tecnología o framework (por ejemplo Angular) y una API REST en otra tecnología o framework (Springboot, Express) deberá tener la siguiente estructura de directorios en el repositorio de entrega:
 
 - src-api
 - src-frontend
 - docs
 - README.md
-
-En el caso anterior, si se quiere desplegar de forma automatizada a partir del control de versiones, lo habitual es que estén los dos proyectos en repositorios separados. Por lo que se deberá configurar el despliegue automático para indicarle la raíz del código fuente de cada proyecto (si es posible) o hacer dos folks del repositorio principal uno para la API y otro para el frontend y adaptar los directorios para poder realizar el despliegue automático.
-
-En un proyecto monolítico (tecnología servidor: Springboot, Django, Express, PHP,... con un sistema de templates propio para el frontend: Thymeleaf, jinja, ejs,...) deberá tener la siguiente estructura en el repositorio de entrega:
-
-- src
-- docs
-- README.md
-# PFC-WorkHourWizard
