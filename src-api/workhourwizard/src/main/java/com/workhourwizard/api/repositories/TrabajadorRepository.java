@@ -1,4 +1,10 @@
 package com.workhourwizard.api.repositories;
 
-public interface TrabajadorRepository {
+import com.workhourwizard.api.models.Trabajador;
+import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
+@Repository
+public interface TrabajadorRepository extends CrudRepository<Trabajador, Long> {
+
 }

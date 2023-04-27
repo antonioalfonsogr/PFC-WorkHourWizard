@@ -13,13 +13,13 @@ import java.util.List;
 @NoArgsConstructor
 @EqualsAndHashCode
 @Entity
-@Table(name = "empleado")
+@Table(name = "trabajador")
 public class Trabajador {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_empleado", unique = true, nullable = false)
-    private Long idEmpleado;
+    @Column(name = "id_trabajador", unique = true, nullable = false)
+    private Long idTrabajador;
 
     @Column(name = "nombre")
     private String nombre;
@@ -46,7 +46,10 @@ public class Trabajador {
     @JoinColumn(name = "id_gestor")
     private Trabajador gestor;
 
-    @OneToMany(mappedBy = "gestor")
-    private List<Trabajador> trabajadoresACargo;
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = Trabajador.class)
+    private List<Trabajador> trabajadoresACargos;
+
+    @OneToMany(fetch = FetchType.LAZY, targetEntity = RangoHorario.class)
+    private List<RangoHorario> rangosHorariosTrabajador;
 
 }
