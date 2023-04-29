@@ -12,37 +12,39 @@ import java.util.Optional;
 @RequestMapping("/api/{idTrabajador}/rangohorario")
 public class RangoHorarioController {
 
-    private final RangoHorarioService rangoHorarioService;
+  private final RangoHorarioService rangoHorarioService;
 
-    @Autowired
-    public RangoHorarioController(RangoHorarioService rangoHorarioService){
-        this.rangoHorarioService = rangoHorarioService;
-    }
+  @Autowired
+  public RangoHorarioController(RangoHorarioService rangoHorarioService) {
+    this.rangoHorarioService = rangoHorarioService;
+  }
 
-    @GetMapping("")
-    public List<RangoHorario> obtenerRangosHorarios(@PathVariable(name = "idTrabajador") Long idTrabajador){
-        return this.rangoHorarioService.obtenerRangosHorarios(idTrabajador);
-    }
+  @GetMapping("")
+  public List<RangoHorario> obtenerRangosHorarios(
+      @PathVariable(name = "idTrabajador") Long idTrabajador) {
+    return this.rangoHorarioService.obtenerRangosHorarios(idTrabajador);
+  }
 
-    @GetMapping("/{id}")
-    public Optional<RangoHorario> obtenerRangoHorarioPorId(@PathVariable Long id){
-        return this.rangoHorarioService.obtenerRangoHorarioPorId(id);
-    }
+  @GetMapping("/{id}")
+  public Optional<RangoHorario> obtenerRangoHorarioPorId(@PathVariable Long id) {
+    return this.rangoHorarioService.obtenerRangoHorarioPorId(id);
+  }
 
+  @PostMapping("")
+  public RangoHorario insertarRangoHorario(
+      @PathVariable(name = "idTrabajador") Long idTabajador,
+      @RequestBody RangoHorario rangoHorario) {
+    return this.rangoHorarioService.insertarRangoHorario(idTabajador, rangoHorario);
+  }
 
-    @PostMapping("")
-    public RangoHorario insertarRangoHorario(@PathVariable(name = "idTrabajador") Long idTabajador, @RequestBody RangoHorario rangoHorario){
-        return this.rangoHorarioService.insertarRangoHorario(idTabajador,rangoHorario);
-    }
+  @PutMapping("/{id}")
+  public void actualizarRangoHorario(
+      @PathVariable Long id, @RequestBody RangoHorario rangoHorario) {
+    this.rangoHorarioService.actualizarRangoHorario(id, rangoHorario);
+  }
 
-    @PutMapping("/{id}")
-    public void actualizarRangoHorario(@PathVariable Long id, @RequestBody RangoHorario rangoHorario){
-        this.rangoHorarioService.actualizarRangoHorario(id, rangoHorario);
-    }
-
-    @DeleteMapping("/{id}")
-    public void eliminarRangoHorario(@PathVariable Long id){
-        this.rangoHorarioService.eliminarRangoHorario(id);
-    }
-
+  @DeleteMapping("/{id}")
+  public void eliminarRangoHorario(@PathVariable Long id) {
+    this.rangoHorarioService.eliminarRangoHorario(id);
+  }
 }
