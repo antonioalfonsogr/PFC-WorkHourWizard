@@ -11,21 +11,15 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-  private final TrabajadorRepository trabajadorRepository;
-
   @Autowired
-  public UserDetailsServiceImpl(TrabajadorRepository trabajadorRepository) {
-    this.trabajadorRepository = trabajadorRepository;
-  }
+  private TrabajadorRepository trabajadorRepository;
 
   @Override
   public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
     Trabajador trabajador =
         trabajadorRepository
             .findOneByEmail(email)
-            .orElseThrow(
-                () ->
-                    new UsernameNotFoundException(
+            .orElseThrow(() -> new UsernameNotFoundException(
                         "Trabajador con email " + email + " no registrado"));
 
     return new UserDetailsImpl(trabajador);

@@ -10,12 +10,11 @@ import java.util.*;
 
 public class TokenUtils {
 
-  private static final String ACCESS_TOKEN_SECRERT =
-      "$2a$10$XXKtWmFmblScxdFXOkfrw.O7zpjLd2u9XzyfDTm1uN7fCjK1eVOPi";
+  private static final String ACCESS_TOKEN_SECRERT = "=1aBcDeFgHiJkL2mNoPqRsTuV3wXyZ4?";
   private static final Long ACCESS_TOKEN_VALIDITY_SECONDS = 2_629_746L;
 
-  public static String createToken(String email, String dni) {
-    long expirationTime = ACCESS_TOKEN_VALIDITY_SECONDS * 1000;
+  public static String createToken(String dni, String email) {
+    long expirationTime = ACCESS_TOKEN_VALIDITY_SECONDS * 1_000;
     Date expirationDate = new Date(System.currentTimeMillis() + expirationTime);
 
     Map<String, Object> extra = new HashMap<>();
@@ -30,7 +29,6 @@ public class TokenUtils {
   }
 
   public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
-
     try {
       Claims claims =
           Jwts.parserBuilder()

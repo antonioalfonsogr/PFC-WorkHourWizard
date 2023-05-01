@@ -3,6 +3,7 @@ package com.workhourwizard.api.services;
 import com.workhourwizard.api.models.Trabajador;
 import com.workhourwizard.api.repositories.TrabajadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,7 @@ public class TrabajadorService {
     }
 
     public Trabajador insertarTrabajador(Trabajador trabajador) {
+        trabajador.setPassword(new BCryptPasswordEncoder().encode(trabajador.getPassword()));
         return this.trabajadorRepository.save(trabajador);
     }
 
