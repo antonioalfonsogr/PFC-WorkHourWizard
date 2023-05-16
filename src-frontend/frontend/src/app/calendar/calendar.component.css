@@ -1,0 +1,15 @@
+.unavailable{
+    background: white;
+}
+
+.free{
+    background: green;
+}
+
+.ocuped{
+    background: gray;
+}
+
+.calendar div{
+    min-height: 50px;
+}

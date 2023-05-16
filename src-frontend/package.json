@@ -1,0 +1,8 @@
+{
+  "dependencies": {
+    "bootstrap": "^5.2.3",
+    "ddr-configuration": "^8.0.1",
+    "font-awesome": "^4.7.0",
+    "jquery": "^3.7.0"
+  }
+}

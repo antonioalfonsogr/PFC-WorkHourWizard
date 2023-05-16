@@ -1,0 +1,21 @@
+
+<div class="row" *ngIf="show">
+  <div class="col-12 calendar">
+
+    <div *ngFor="let info of data">
+
+      <div class="col-1">
+        {{info.hour}}
+      </div>
+      <div class="col-1" [ngClass]="{'unavailable': av == 'N', 'free': av == 'L', 'ocupated': av == 'O' }" *ngFor="let av of data.avialability">
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+<div *ngIf="!show">
+  <p>NO DISPONIBLE</p>
+</div>
