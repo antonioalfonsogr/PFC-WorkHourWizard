@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/{idTrabajador}/rangohorario")
+@RequestMapping("/api/trabajador/{idTrabajador}/rangohorario")
 public class RangoHorarioController {
 
   private final RangoHorarioService rangoHorarioService;
