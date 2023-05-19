@@ -1,0 +1,46 @@
+.info-section {
+    background-color: #E4DCCF;
+    padding: 2rem;
+    width: 80%;
+    margin: 5% auto; 
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .text-block {
+    margin-bottom: 2rem;
+    flex-basis: 100%;
+  }
+  
+  .text-block h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+  }
+  
+  .text-block p {
+    font-size: 1.1rem;
+  }
+
+  .text-image-block {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .text-image-block .text-block {
+    flex-basis: 69%;
+  }
+  
+  .image-block {
+    display: flex;
+    align-items: center;
+    flex-basis: 29%;
+    margin-left: 1.5rem;
+  }
+  
+  .image-block img {
+    width: 90%;
+    height: auto;
+  }
+  
+  
+  

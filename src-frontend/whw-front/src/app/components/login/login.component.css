@@ -1,0 +1,28 @@
+.login-form {
+    background-color: #e4dccf;
+    width: 80%;
+    margin: 10rem auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .forgot-password {
+    margin-top: 1rem;
+  }
+  
+  .login-button {
+    background-color: #7d9d9c;
+    font-weight: 500;
+    border-radius: 5px;
+    margin-top: 1rem;
+  }
+  
+  .register-link {
+    margin-top: 1rem;
+    font-weight: bold;
+  }
+  
+  .register-link a {
+    color: #7d9d9c;
+  }
+  
