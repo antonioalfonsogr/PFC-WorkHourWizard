@@ -1,6 +1,6 @@
 .login-form {
   background-color: #e4dccf;
-  width: 80%;
+  width: 60%;
   margin: 8rem auto;
   padding: 2rem;
   text-align: center;
@@ -10,14 +10,12 @@
 }
 
 .input-container {
-  width: 70%;
+  width: 100%;
   margin: auto;
 }
 
-input {
-  border: 1px solid #7d9d9c;
-  border-radius: 5px;
-  width: 100%;
+.input-container input {
+  width: 90%;
 }
 
 .forgot-password a,
@@ -38,7 +36,7 @@ input {
   border-radius: 5px;
   padding: 0.5rem 1rem;
   transition: background-color 0.3s ease;
-  width: 50%;
+  width: 40%;
   margin-top: 1rem;
 }
 
