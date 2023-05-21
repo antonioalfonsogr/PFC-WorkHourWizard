@@ -1,18 +1,24 @@
-<fieldset class="login-form">
-    <div class="form-group">
-      <label for="email" class="label">EMAIL</label>
-      <input type="email" class="input" id="email" placeholder="Email">
-    </div>
-    <div class="form-group">
-      <label for="password" class="label">CONTRASEÑA</label>
-      <input type="password" class="input" id="password" placeholder="Contraseña">
-    </div>
-    <div class="forgot-password">
-      <a routerLink="/recuperar-contraseña">¿Ha olvidado su contraseña?</a>
-    </div>
-    <button class="login-button">Iniciar sesión</button>
-    <div class="register-link">
-      <a routerLink="/registro">Registrarse</a>
-    </div>
-  </fieldset>
-  
+<form action="" class="login-form">
+  <div class="input-container">
+    <mat-form-field>
+      <mat-label>EMAIL:</mat-label>
+      <input matInput type="email" id="email" placeholder="Introduzca su email..." />
+    </mat-form-field>
+  </div>
+  <div class="input-container">
+    <mat-form-field>
+      <mat-label>CONTRASEÑA:</mat-label>
+      <input matInput type="password" id="password" placeholder="Introduzca su contraseña..." />
+    </mat-form-field>
+  </div>
+  <div class="forgot-password">
+    <a routerLink="/recuperar-password" class="custom-link">¿Ha olvidado su contraseña?</a>
+  </div>
+  <button mat-button class="login-button">Iniciar sesión</button>
+  <div class="register-link">
+    <a routerLink="/registro" class="custom-link">Registrarse</a>
+  </div>
+</form>
+
+
+
