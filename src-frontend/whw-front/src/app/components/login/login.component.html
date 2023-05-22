@@ -1,24 +1,36 @@
 <form action="" class="login-form">
   <div class="input-container">
-    <mat-form-field>
+    <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>EMAIL:</mat-label>
-      <input matInput type="email" id="email" placeholder="Introduzca su email..." />
+      <input matInput type="email" id="email" placeholder="Introduzca su email..." class="custom-input" />
     </mat-form-field>
   </div>
   <div class="input-container">
-    <mat-form-field>
+    <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>CONTRASEÑA:</mat-label>
-      <input matInput type="password" id="password" placeholder="Introduzca su contraseña..." />
+      <input matInput type="password" id="password" placeholder="Introduzca su contraseña..." class="custom-input" />
     </mat-form-field>
   </div>
   <div class="forgot-password">
     <a routerLink="/recuperar-password" class="custom-link">¿Ha olvidado su contraseña?</a>
   </div>
-  <button mat-raised-button class="login-button">Iniciar sesión</button>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="login-button">INGRESAR</button>
+  </div>
   <div class="register-link">
-    <a routerLink="/registro" class="custom-link">Registrarse</a>
+    <a routerLink="/registro" class="custom-link">REGISTRARSE</a>
   </div>
 </form>
+
+
+
+
+
+
+
+
+
+
 
 
 

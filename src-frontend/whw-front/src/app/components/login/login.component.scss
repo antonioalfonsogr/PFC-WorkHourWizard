@@ -1,0 +1,93 @@
+.login-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #e4dccf;
+  width: 60%;
+  margin: 8rem auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.input-container {
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+.my-input-focused .mat-form-field-outline {
+  color: #7d9d9c;
+}
+
+.my-input-focused .mat-form-field-outline-thick {
+  border-color: #7d9d9c;
+}
+
+.my-input-focused .mat-form-field-ripple {
+  background-color: #7d9d9c;
+}
+
+.custom-input {
+  width: 100%;
+  max-width: 25rem;
+}
+
+.forgot-password,
+.register-link {
+  font-weight: bold;
+  margin-top: 1rem;
+}
+
+.forgot-password a,
+.register-link a {
+  color: #7d9d9c;
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.forgot-password a:visited,
+.register-link a:visited {
+  color: #576f72;
+}
+
+.button-container {
+  width: 100%;
+}
+
+.login-button {
+  width: 100%;
+  max-width: 25rem;
+  margin-top: 1rem;
+  padding: 1.75rem 1rem;
+  background-color: #7d9d9c !important;
+  color: white;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+}
+
+.login-button:hover {
+  background-color: #576f72;
+}
+
+/* Nueva clase personalizada para ajustar el ancho de los mat-form-field */
+.custom-mat-form-field {
+  width: 100%;
+  max-width: 25rem;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
