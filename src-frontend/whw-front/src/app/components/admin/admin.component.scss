@@ -1,0 +1,50 @@
+.worker-list {
+    background-color: #e4dccf;
+    width: 80%;
+    margin: 2rem auto;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .worker-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+  
+  mat-form-field {
+    margin-top: 1.45rem;
+    width: 100%;
+    margin-left: 0.5rem;
+  }
+  
+  mat-form-field.single-width {
+    max-width: 20rem;
+  }
+  
+  mat-form-field.double-width {
+    max-width: 35rem;
+  }
+  
+  .edit-button {
+    margin-left: 1rem;
+    padding: 1.75rem 1rem;
+    background-color: #7d9d9c !important;
+    color: white;
+    font-weight: 500;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+    min-width: 10rem;
+  }
+  
+  .wide-button {
+    width: auto;
+    min-width: 150px;
+  }
+  
+  .edit-button:hover {
+    background-color: #576f72;
+  }
+  
+  

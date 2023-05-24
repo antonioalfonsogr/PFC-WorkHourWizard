@@ -11,6 +11,7 @@ import { MainComponent } from './components/main/main.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
+import { AdminComponent } from './components/admin/admin.component';
 
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatButtonModule } from '@angular/material/button';
@@ -24,7 +25,8 @@ import { MatSelectModule} from '@angular/material/select';
     FooterComponent,
     MainComponent,
     LoginComponent,
-    RegistroComponent
+    RegistroComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

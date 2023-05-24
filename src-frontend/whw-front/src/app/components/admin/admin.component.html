@@ -1,0 +1,21 @@
+<div class="worker-list">
+  <div *ngFor="let worker of workerList" class="worker-item">
+    <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field double-width">
+      <mat-label>Apellidos, Nombre:</mat-label>
+      <input matInput [value]="worker.apellido + ', ' + worker.nombre" readonly class="custom-input" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field single-width">
+      <mat-label>Cargo:</mat-label>
+      <input matInput [value]="worker.cargo" readonly class="custom-input" />
+    </mat-form-field>
+
+    <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field single-width">
+      <mat-label>Gestor:</mat-label>
+      <input matInput [value]="worker.gestor?.nombre || 'N/A'" readonly class="custom-input" />
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="edit-button">EDITAR</button>
+  </div>
+</div>
+
