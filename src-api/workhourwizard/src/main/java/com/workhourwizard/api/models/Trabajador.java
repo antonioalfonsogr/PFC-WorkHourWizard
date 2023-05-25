@@ -11,7 +11,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = {"trabajadoresACargo", "rangosHorariosTrabajador"})
 @Entity
 @Table(name = "trabajador")
 public class Trabajador {
@@ -39,16 +39,21 @@ public class Trabajador {
   @Column(name = "telefono")
   private String telefono;
 
+
   @Column(name = "cargo")
+  @Enumerated(EnumType.STRING)
   private Cargo cargo;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_gestor")
   private Trabajador gestor;
 
-  @OneToMany(fetch = FetchType.LAZY, targetEntity = Trabajador.class)
-  private List<Trabajador> trabajadoresACargos;
+  @OneToMany(mappedBy = "gestor", fetch = FetchType.LAZY)
+  private List<Trabajador> trabajadoresACargo;
 
-  @OneToMany(fetch = FetchType.LAZY, targetEntity = RangoHorario.class)
+  @OneToMany(mappedBy = "trabajador", targetEntity = RangoHorario.class, fetch = FetchType.LAZY)
   private List<RangoHorario> rangosHorariosTrabajador;
+
+
 }
+

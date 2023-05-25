@@ -30,7 +30,9 @@ public class RangoHorario {
   @Column(name = "verificado")
   private Boolean verificado;
 
-  @ManyToOne(fetch = FetchType.LAZY, targetEntity = Trabajador.class)
+  @ManyToOne(targetEntity = Trabajador.class)
   @JoinColumn(name = "id_trabajador")
   private Trabajador trabajador;
+
+
 }
