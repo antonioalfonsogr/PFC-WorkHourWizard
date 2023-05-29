@@ -4,6 +4,7 @@ import { InfoComponent } from './components/info/info.component';
 import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { AdminComponent } from './components/admin/admin.component';
+import { CalendarComponent } from './components/calendar/calendar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { path: 'admin', component: AdminComponent },
+  { path: 'calendar', component: CalendarComponent }
 ];
 
 @NgModule({

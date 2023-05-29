@@ -17,6 +17,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule} from '@angular/material/select';
 
+import { CalendarComponent } from './components/calendar/calendar.component';
+import { FullCalendarModule } from '@fullcalendar/angular';
+
+
 
 
 @NgModule({
@@ -26,7 +30,8 @@ import { MatSelectModule} from '@angular/material/select';
     FooterComponent,
     LoginComponent,
     RegistroComponent,
-    AdminComponent
+    AdminComponent,
+    CalendarComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +41,8 @@ import { MatSelectModule} from '@angular/material/select';
     MatFormFieldModule,
     MatButtonModule,
     MatInputModule,
-    MatSelectModule
-   
+    MatSelectModule,
+    FullCalendarModule
   ],
   providers: [],
   bootstrap: [AppComponent]
