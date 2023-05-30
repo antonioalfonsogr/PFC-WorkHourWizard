@@ -1,17 +1,8 @@
 package com.workhourwizard.api.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode
 @Entity
 @Table(name = "rango_horario")
 public class RangoHorario {
@@ -34,5 +25,55 @@ public class RangoHorario {
   @JoinColumn(name = "id_trabajador")
   private Trabajador trabajador;
 
+  public RangoHorario() {
+  }
 
+  public RangoHorario(Long idRangoHorario, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFin, Boolean verificado, Trabajador trabajador) {
+    this.idRangoHorario = idRangoHorario;
+    this.fechaHoraInicio = fechaHoraInicio;
+    this.fechaHoraFin = fechaHoraFin;
+    this.verificado = verificado;
+    this.trabajador = trabajador;
+  }
+
+  public Long getIdRangoHorario() {
+    return idRangoHorario;
+  }
+
+  public void setIdRangoHorario(Long idRangoHorario) {
+    this.idRangoHorario = idRangoHorario;
+  }
+
+  public LocalDateTime getFechaHoraInicio() {
+    return fechaHoraInicio;
+  }
+
+  public void setFechaHoraInicio(LocalDateTime fechaHoraInicio) {
+    this.fechaHoraInicio = fechaHoraInicio;
+  }
+
+  public LocalDateTime getFechaHoraFin() {
+    return fechaHoraFin;
+  }
+
+  public void setFechaHoraFin(LocalDateTime fechaHoraFin) {
+    this.fechaHoraFin = fechaHoraFin;
+  }
+
+  public Boolean getVerificado() {
+    return verificado;
+  }
+
+  public void setVerificado(Boolean verificado) {
+    this.verificado = verificado;
+  }
+
+  public Trabajador getTrabajador() {
+    return trabajador;
+  }
+
+  public void setTrabajador(Trabajador trabajador) {
+    this.trabajador = trabajador;
+  }
 }
+

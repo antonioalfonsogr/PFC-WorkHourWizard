@@ -1,17 +1,8 @@
 package com.workhourwizard.api.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.util.List;
 
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@EqualsAndHashCode(exclude = {"trabajadoresACargo", "rangosHorariosTrabajador"})
 @Entity
 @Table(name = "trabajador")
 public class Trabajador {
@@ -39,7 +30,6 @@ public class Trabajador {
   @Column(name = "telefono")
   private String telefono;
 
-
   @Column(name = "cargo")
   @Enumerated(EnumType.STRING)
   private Cargo cargo;
@@ -54,6 +44,103 @@ public class Trabajador {
   @OneToMany(mappedBy = "trabajador", targetEntity = RangoHorario.class, fetch = FetchType.LAZY)
   private List<RangoHorario> rangosHorariosTrabajador;
 
+  public Trabajador() {}
+
+  public Trabajador(
+      Long idTrabajador,
+      String nombre,
+      String apellido,
+      String dni,
+      String email,
+      String password,
+      String telefono,
+      Cargo cargo,
+      Trabajador gestor,
+      List<Trabajador> trabajadoresACargo,
+      List<RangoHorario> rangosHorariosTrabajador) {
+    this.idTrabajador = idTrabajador;
+    this.nombre = nombre;
+    this.apellido = apellido;
+    this.dni = dni;
+    this.email = email;
+    this.password = password;
+    this.telefono = telefono;
+    this.cargo = cargo;
+    this.gestor = gestor;
+    this.trabajadoresACargo = trabajadoresACargo;
+    this.rangosHorariosTrabajador = rangosHorariosTrabajador;
+  }
+
+  public Long getIdTrabajador() {
+    return idTrabajador;
+  }
+
+  public void setIdTrabajador(Long idTrabajador) {
+    this.idTrabajador = idTrabajador;
+  }
+
+  public String getNombre() {
+    return nombre;
+  }
+
+  public void setNombre(String nombre) {
+    this.nombre = nombre;
+  }
+
+  public String getApellido() {
+    return apellido;
+  }
+
+  public void setApellido(String apellido) {
+    this.apellido = apellido;
+  }
+
+  public String getDni() {
+    return dni;
+  }
+
+  public void setDni(String dni) {
+    this.dni = dni;
+  }
+
+  public String getEmail() {
+    return email;
+  }
+
+  public void setEmail(String email) {
+    this.email = email;
+  }
+
+  public String getPassword() {
+    return password;
+  }
+
+  public void setPassword(String password) {
+    this.password = password;
+  }
+
+  public String getTelefono() {
+    return telefono;
+  }
+
+  public void setTelefono(String telefono) {
+    this.telefono = telefono;
+  }
+
+  public Cargo getCargo() {
+    return cargo;
+  }
+
+  public void setCargo(Cargo cargo) {
+    this.cargo = cargo;
+  }
+
+  public Trabajador getGestor() {
+    return gestor;
+  }
+
+  public void setGestor(Trabajador gestor) {
+    this.gestor = gestor;
+  }
 
 }
-

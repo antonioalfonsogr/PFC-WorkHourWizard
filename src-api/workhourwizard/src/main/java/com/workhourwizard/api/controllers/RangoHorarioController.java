@@ -2,6 +2,7 @@ package com.workhourwizard.api.controllers;
 
 import com.workhourwizard.api.models.RangoHorario;
 import com.workhourwizard.api.services.RangoHorarioService;
+import com.workhourwizard.api.services.TrabajadorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,16 +14,21 @@ import java.util.Optional;
 public class RangoHorarioController {
 
   private final RangoHorarioService rangoHorarioService;
+  private final TrabajadorService trabajadorService;
 
   @Autowired
-  public RangoHorarioController(RangoHorarioService rangoHorarioService) {
+  public RangoHorarioController(RangoHorarioService rangoHorarioService, TrabajadorService trabajadorService) {
     this.rangoHorarioService = rangoHorarioService;
+    this.trabajadorService = trabajadorService;
   }
 
   @GetMapping("")
-  public List<RangoHorario> obtenerRangosHorarios(
-      @PathVariable(name = "idTrabajador") Long idTrabajador) {
-    return this.rangoHorarioService.obtenerRangosHorarios(idTrabajador);
+  public List<RangoHorario> obtenerRangosHorarios(@PathVariable(name = "idTrabajador") Long idTrabajador) {
+//    return this.trabajadorService
+//        .obtenerTrabajadorPorId(idTrabajador)
+//        .get()
+//        .getRangosHorariosTrabajador();
+    return null;
   }
 
   @GetMapping("/{id}")

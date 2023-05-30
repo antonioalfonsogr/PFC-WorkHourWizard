@@ -1,43 +1,60 @@
 package com.workhourwizard.api.services;
 
 import com.workhourwizard.api.models.RangoHorario;
+import com.workhourwizard.api.models.Trabajador;
 import com.workhourwizard.api.repositories.RangoHorarioRepository;
+import com.workhourwizard.api.repositories.TrabajadorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
 public class RangoHorarioService {
 
-    @Autowired
-    private RangoHorarioRepository rangoHorarioRepository;
+    private final RangoHorarioRepository rangoHorarioRepository;
+    private final TrabajadorRepository trabajadorRepository;
 
-    public List<RangoHorario> obtenerRangosHorarios(Long idTrabajador) {
-        return (List<RangoHorario>) this.rangoHorarioRepository.findAll();
+    @Autowired
+    public RangoHorarioService(RangoHorarioRepository rangoHorarioRepository, TrabajadorRepository trabajadorRepository) {
+        this.rangoHorarioRepository = rangoHorarioRepository;
+        this.trabajadorRepository = trabajadorRepository;
     }
 
+    public List<RangoHorario> obtenerRangosHorarios(Long idTrabajador) {
+        return (List<RangoHorario>) rangoHorarioRepository.findAll();
+    }
+
+
     public Optional<RangoHorario> obtenerRangoHorarioPorId(Long idRangoHorario) {
-        return Optional.of(this.rangoHorarioRepository.findById(idRangoHorario).orElseThrow());
+        return rangoHorarioRepository.findById(idRangoHorario);
     }
 
     public RangoHorario insertarRangoHorario(Long idTrabajador, RangoHorario rangoHorario) {
-        rangoHorario.setTrabajador(rangoHorarioRepository.findById(idTrabajador).orElseThrow().getTrabajador());
-        return this.rangoHorarioRepository.save(rangoHorario);
+        Trabajador trabajador = trabajadorRepository.findById(idTrabajador)
+                .orElseThrow(() -> new NoSuchElementException("Trabajador no encontrado"));
+        rangoHorario.setTrabajador(trabajador);
+        rangoHorario.setVerificado(false);
+        return rangoHorarioRepository.save(rangoHorario);
     }
 
     public void actualizarRangoHorario(Long idRangoHorario, RangoHorario rangoHorario) {
-       RangoHorario updateRangoHorario = this.rangoHorarioRepository.findById(idRangoHorario).orElseThrow();
+        RangoHorario updateRangoHorario = rangoHorarioRepository.findById(idRangoHorario)
+                .orElseThrow(() -> new NoSuchElementException("Rango horario no encontrado"));
         updateRangoHorario.setFechaHoraInicio(rangoHorario.getFechaHoraInicio());
         updateRangoHorario.setFechaHoraFin(rangoHorario.getFechaHoraFin());
         updateRangoHorario.setVerificado(rangoHorario.getVerificado());
         updateRangoHorario.setTrabajador(rangoHorario.getTrabajador());
-        this.rangoHorarioRepository.save(updateRangoHorario);
+        rangoHorarioRepository.save(updateRangoHorario);
     }
 
     public void eliminarRangoHorario(Long idRangoHorario) {
-        RangoHorario rangoHorario = this.rangoHorarioRepository.findById(idRangoHorario).orElseThrow();
-        this.rangoHorarioRepository.deleteById(rangoHorario.getIdRangoHorario());
+        rangoHorarioRepository.deleteById(idRangoHorario);
     }
 }
+
+
+
+

@@ -1,6 +1,5 @@
 package com.workhourwizard.api.security;
 
-import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,45 +13,49 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
-@AllArgsConstructor
 public class WebSecurityConfig {
 
   private final UserDetailsService userDetailsService;
   private final JWTAuthorizationFilter jwtAuthorizationFilter;
 
+  public WebSecurityConfig(UserDetailsService userDetailsService, JWTAuthorizationFilter jwtAuthorizationFilter) {
+    this.userDetailsService = userDetailsService;
+    this.jwtAuthorizationFilter = jwtAuthorizationFilter;
+  }
+
   @Bean
   SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager)
-      throws Exception {
+          throws Exception {
 
     JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
     jwtAuthenticationFilter.setAuthenticationManager(authManager);
     jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
 
     return http.csrf()
-        .disable()
-        .authorizeRequests()
-        .antMatchers("/api/login/**")
-        .permitAll()
-        .and()
-        .authorizeRequests()
-        .anyRequest()
-        .authenticated()
-        .and()
-        .sessionManagement()
-        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-        .and()
-        .addFilter(jwtAuthenticationFilter)
-        .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
-        .build();
+            .disable()
+            .authorizeRequests()
+            .antMatchers("/api/login/**")
+            .permitAll()
+            .and()
+            .authorizeRequests()
+            .anyRequest()
+            .authenticated()
+            .and()
+            .sessionManagement()
+            .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+            .and()
+            .addFilter(jwtAuthenticationFilter)
+            .addFilterBefore(jwtAuthorizationFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
   }
 
   @Bean
   AuthenticationManager authManager(HttpSecurity http) throws Exception {
     return http.getSharedObject(AuthenticationManagerBuilder.class)
-        .userDetailsService(userDetailsService)
-        .passwordEncoder(passwordEncoder())
-        .and()
-        .build();
+            .userDetailsService(userDetailsService)
+            .passwordEncoder(passwordEncoder())
+            .and()
+            .build();
   }
 
   @Bean
@@ -60,8 +63,8 @@ public class WebSecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-    public static void main(String[] args){
-      System.out.println("pass: " + new BCryptPasswordEncoder().encode("pass1234"));
-    }
-
+  public static void main(String[] args) {
+    System.out.println("pass: " + new BCryptPasswordEncoder().encode("pass1234"));
+  }
 }
+
