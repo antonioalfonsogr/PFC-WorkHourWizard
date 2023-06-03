@@ -5,8 +5,7 @@ public class AuthCredentials {
   private String email;
   private String password;
 
-  public AuthCredentials() {
-  }
+  public AuthCredentials() {}
 
   public AuthCredentials(String email, String password) {
     this.email = email;
@@ -20,5 +19,5 @@ public class AuthCredentials {
   public String getPassword() {
     return password;
   }
-
 }
+

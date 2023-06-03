@@ -1,5 +1,8 @@
 package com.workhourwizard.api.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -36,28 +39,32 @@ public class Trabajador {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "id_gestor")
+  @JsonBackReference
   private Trabajador gestor;
 
   @OneToMany(mappedBy = "gestor", fetch = FetchType.LAZY)
+  @JsonManagedReference
   private List<Trabajador> trabajadoresACargo;
 
   @OneToMany(mappedBy = "trabajador", targetEntity = RangoHorario.class, fetch = FetchType.LAZY)
+  @JsonManagedReference
   private List<RangoHorario> rangosHorariosTrabajador;
 
+  // Constructores
   public Trabajador() {}
 
   public Trabajador(
-      Long idTrabajador,
-      String nombre,
-      String apellido,
-      String dni,
-      String email,
-      String password,
-      String telefono,
-      Cargo cargo,
-      Trabajador gestor,
-      List<Trabajador> trabajadoresACargo,
-      List<RangoHorario> rangosHorariosTrabajador) {
+          Long idTrabajador,
+          String nombre,
+          String apellido,
+          String dni,
+          String email,
+          String password,
+          String telefono,
+          Cargo cargo,
+          Trabajador gestor,
+          List<Trabajador> trabajadoresACargo,
+          List<RangoHorario> rangosHorariosTrabajador) {
     this.idTrabajador = idTrabajador;
     this.nombre = nombre;
     this.apellido = apellido;
@@ -71,6 +78,7 @@ public class Trabajador {
     this.rangosHorariosTrabajador = rangosHorariosTrabajador;
   }
 
+  // Métodos getter y setter
   public Long getIdTrabajador() {
     return idTrabajador;
   }
@@ -143,4 +151,19 @@ public class Trabajador {
     this.gestor = gestor;
   }
 
+  public List<Trabajador> getTrabajadoresACargo() {
+    return trabajadoresACargo;
+  }
+
+  public void setTrabajadoresACargo(List<Trabajador> trabajadoresACargo) {
+    this.trabajadoresACargo = trabajadoresACargo;
+  }
+
+  public List<RangoHorario> getRangosHorariosTrabajador() {
+    return rangosHorariosTrabajador;
+  }
+
+  public void setRangosHorariosTrabajador(List<RangoHorario> rangosHorariosTrabajador) {
+    this.rangosHorariosTrabajador = rangosHorariosTrabajador;
+  }
 }

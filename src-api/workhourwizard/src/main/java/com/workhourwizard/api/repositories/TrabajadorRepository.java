@@ -11,3 +11,4 @@ public interface TrabajadorRepository extends CrudRepository<Trabajador, Long> {
 
   Optional<Trabajador> findOneByEmail(String email);
 }
+

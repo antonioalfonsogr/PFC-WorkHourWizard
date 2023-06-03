@@ -21,21 +21,21 @@ public class TokenUtils {
     extra.put("dni", dni);
 
     return Jwts.builder()
-        .setSubject(email)
-        .setExpiration(expirationDate)
-        .addClaims(extra)
-        .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRERT.getBytes()))
-        .compact();
+            .setSubject(email)
+            .setExpiration(expirationDate)
+            .addClaims(extra)
+            .signWith(Keys.hmacShaKeyFor(ACCESS_TOKEN_SECRERT.getBytes()))
+            .compact();
   }
 
   public static UsernamePasswordAuthenticationToken getAuthentication(String token) {
     try {
       Claims claims =
-          Jwts.parserBuilder()
-              .setSigningKey(ACCESS_TOKEN_SECRERT.getBytes())
-              .build()
-              .parseClaimsJws(token)
-              .getBody();
+              Jwts.parserBuilder()
+                      .setSigningKey(ACCESS_TOKEN_SECRERT.getBytes())
+                      .build()
+                      .parseClaimsJws(token)
+                      .getBody();
 
       String email = claims.getSubject();
 
@@ -46,3 +46,4 @@ public class TokenUtils {
     }
   }
 }
+

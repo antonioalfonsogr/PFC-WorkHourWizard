@@ -35,7 +35,7 @@ export class CalendarComponent implements OnInit {
       slotMinTime: '07:00:00',
       slotMaxTime: '21:00:00',
       editable: false,
-      height: '26.5rem'
+      height: '31.05rem'
     };
 
     this.calendarEvents = [

@@ -1,21 +1,38 @@
+@use "@angular/material" as mat;
+@include mat.core();
 
-* {  
-    box-sizing: border-box;
-    font-family: "Fira Sans", Arial, sans-serif;
+$my-primary: mat.define-palette(mat.$teal-palette, 700);
+$my-accent: mat.define-palette(mat.$light-green-palette, 800);
 
+$my-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $my-primary,
+      accent: $my-accent,
+    ),
+    typography: mat.define-typography-config(),
+    density: 0,
+  )
+);
+
+@include mat.all-component-themes($my-theme);
+
+* {
+  box-sizing: border-box;
+  font-family: "Fira Sans", Arial, sans-serif;
 }
 
-body{
-    background-color: #F0EBE3 ;
-    margin: 0;
+body {
+  background-color: #f0ebe3;
+  margin: 0;
 }
 
-
-
-html{ height: 100%;
-    width: 100%;
+html {
+  height: 100%;
+  width: 100%;
 }
 
-
- 
-
+a {
+  color: #576f72 !important;
+  text-decoration: none !important;
+}

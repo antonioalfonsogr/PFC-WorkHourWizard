@@ -24,9 +24,7 @@ public class WebSecurityConfig {
   }
 
   @Bean
-  SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager)
-          throws Exception {
-
+  SecurityFilterChain filterChain(HttpSecurity http, AuthenticationManager authManager) throws Exception {
     JWTAuthenticationFilter jwtAuthenticationFilter = new JWTAuthenticationFilter();
     jwtAuthenticationFilter.setAuthenticationManager(authManager);
     jwtAuthenticationFilter.setFilterProcessesUrl("/api/login");
@@ -63,8 +61,12 @@ public class WebSecurityConfig {
     return new BCryptPasswordEncoder();
   }
 
-  public static void main(String[] args) {
+// Este método main se utiliza para generar un hash de contraseña para un nuevo usuario.
+
+/*
+    public static void main(String[] args) {
     System.out.println("pass: " + new BCryptPasswordEncoder().encode("pass1234"));
   }
+*/
 }
 

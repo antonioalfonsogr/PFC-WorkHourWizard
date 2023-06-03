@@ -1,5 +1,7 @@
 package com.workhourwizard.api.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -23,12 +25,18 @@ public class RangoHorario {
 
   @ManyToOne(targetEntity = Trabajador.class)
   @JoinColumn(name = "id_trabajador")
+  @JsonBackReference
   private Trabajador trabajador;
 
-  public RangoHorario() {
-  }
+  // Constructores
+  public RangoHorario() {}
 
-  public RangoHorario(Long idRangoHorario, LocalDateTime fechaHoraInicio, LocalDateTime fechaHoraFin, Boolean verificado, Trabajador trabajador) {
+  public RangoHorario(
+          Long idRangoHorario,
+          LocalDateTime fechaHoraInicio,
+          LocalDateTime fechaHoraFin,
+          Boolean verificado,
+          Trabajador trabajador) {
     this.idRangoHorario = idRangoHorario;
     this.fechaHoraInicio = fechaHoraInicio;
     this.fechaHoraFin = fechaHoraFin;
@@ -36,6 +44,7 @@ public class RangoHorario {
     this.trabajador = trabajador;
   }
 
+  // Métodos getter y setter
   public Long getIdRangoHorario() {
     return idRangoHorario;
   }
@@ -76,4 +85,3 @@ public class RangoHorario {
     this.trabajador = trabajador;
   }
 }
-

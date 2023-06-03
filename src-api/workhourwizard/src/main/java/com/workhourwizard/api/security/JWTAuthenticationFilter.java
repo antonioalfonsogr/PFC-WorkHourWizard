@@ -1,6 +1,7 @@
 package com.workhourwizard.api.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -17,8 +18,7 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 
   @Override
   public Authentication attemptAuthentication(
-      HttpServletRequest request,
-      HttpServletResponse response) throws AuthenticationException {
+          HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
 
     AuthCredentials authCredentials = new AuthCredentials();
 
@@ -29,19 +29,19 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     }
 
     UsernamePasswordAuthenticationToken usernamePAT =
-        new UsernamePasswordAuthenticationToken(
-            authCredentials.getEmail(), authCredentials.getPassword(), Collections.emptyList());
+            new UsernamePasswordAuthenticationToken(
+                    authCredentials.getEmail(), authCredentials.getPassword(), Collections.emptyList());
 
     return getAuthenticationManager().authenticate(usernamePAT);
   }
 
   @Override
   protected void successfulAuthentication(
-      HttpServletRequest request,
-      HttpServletResponse response,
-      FilterChain chain,
-      Authentication authResult)
-      throws IOException, ServletException {
+          HttpServletRequest request,
+          HttpServletResponse response,
+          FilterChain chain,
+          Authentication authResult)
+          throws IOException, ServletException {
 
     UserDetailsImpl userDetails = (UserDetailsImpl) authResult.getPrincipal();
     String token = TokenUtils.createToken(userDetails.getDni(), userDetails.getUsername());
@@ -52,3 +52,4 @@ public class JWTAuthenticationFilter extends UsernamePasswordAuthenticationFilte
     super.successfulAuthentication(request, response, chain, authResult);
   }
 }
+
