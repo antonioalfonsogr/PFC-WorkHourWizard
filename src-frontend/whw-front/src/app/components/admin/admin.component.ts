@@ -1,4 +1,5 @@
-import { Component} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Trabajador } from 'src/app/models/trabajador.model';
 import { Cargo } from 'src/app/models/cargo.model';
 
@@ -7,74 +8,32 @@ import { Cargo } from 'src/app/models/cargo.model';
   templateUrl: './admin.component.html',
   styleUrls: ['./admin.component.scss']
 })
-export class AdminComponent {
+export class AdminComponent implements OnInit {
+  workerList: Trabajador[] = [];
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
-  workerList: Trabajador[] = [
-    {
-      idTrabajador: 1,
-      nombre: 'John',
-      apellido: 'Doe',
-      dni: '12345678A',
-      email: 'johndoe@example.com',
-      password: 'password1',
-      telefono: '123456789',
-      cargo: Cargo.ADMIN,
-      gestor: null,
-      trabajadoresACargos: [],
-      rangosHorariosTrabajador: []
-    },
-    {
-      idTrabajador: 2,
-      nombre: 'Jane',
-      apellido: 'Smith',
-      dni: '98765432B',
-      email: 'janesmith@example.com',
-      password: 'password2',
-      telefono: '987654321',
-      cargo: Cargo.GESTOR,
-      gestor: {
-        idTrabajador: 1,
-        nombre: 'John',
-        apellido: 'Doe',
-        dni: '12345678A',
-        email: 'johndoe@example.com',
-        password: 'password1',
-        telefono: '123456789',
-        cargo: Cargo.ADMIN,
-        gestor: null,
-        trabajadoresACargos: [],
-        rangosHorariosTrabajador: []
+  ngOnInit() {
+    this.getWorkerList();
+  }
+
+  getWorkerList() {
+    const endpoint = 'http://localhost:8080/api/trabajador'; 
+    const token = 'eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJqdWFuQGV4YW1wbGUuY29tIiwiZXhwIjoxNjg4MDg1NDQ0LCJkbmkiOiIxMjM0NTY3OCJ9.SdZC6mfORlhxIv-kr20iWh1K3DZKG3X6HMUE-5ZtID0'; // Reemplaza con tu token de autenticación
+
+    const headers = new HttpHeaders().set('Authorization', `Bearer ${token}`);
+
+    console.log(headers);
+
+    this.http.get<Trabajador[]>(endpoint, { headers }).subscribe(
+      (data) => {
+        this.workerList = data;
       },
-      trabajadoresACargos: [],
-      rangosHorariosTrabajador: []
-    },
-    {
-      idTrabajador: 3,
-      nombre: 'Alice',
-      apellido: 'Johnson',
-      dni: '54321678C',
-      email: 'alicejohnson@example.com',
-      password: 'password3',
-      telefono: '543216789',
-      cargo: Cargo.OPERARIO,
-      gestor: {
-        idTrabajador: 1,
-        nombre: 'John',
-        apellido: 'Doe',
-        dni: '12345678A',
-        email: 'johndoe@example.com',
-        password: 'password1',
-        telefono: '123456789',
-        cargo: Cargo.ADMIN,
-        gestor: null,
-        trabajadoresACargos: [],
-        rangosHorariosTrabajador: []
-      },
-      trabajadoresACargos: [],
-      rangosHorariosTrabajador: []
-    }
-  ];
-
+      (error) => {
+        console.error('Error al obtener la lista de trabajadores:', error);
+      }
+    );
+  }
 }
+
+
