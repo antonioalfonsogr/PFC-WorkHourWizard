@@ -15,3 +15,8 @@ export interface Trabajador {
     rangosHorariosTrabajador: RangoHorario[];
   }
   
+
+export interface Credentials {
+    email: string;
+    password: string;
+}

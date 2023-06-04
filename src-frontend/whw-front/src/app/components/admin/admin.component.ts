@@ -14,6 +14,7 @@ export class AdminComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
+    console.log('AdminComponent.onInit()');
     this.getWorkerList();
   }
 
