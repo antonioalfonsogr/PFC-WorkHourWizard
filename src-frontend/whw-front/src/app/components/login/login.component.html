@@ -1,26 +1,27 @@
-<form class="login-form" #form="ngForm" (ngSubmit)="login(form)">
+<form class="login-form" [formGroup]="form" (ngSubmit)="login()">
   <div class="input-container">
     <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>EMAIL:</mat-label>
-      <input matInput type="email" id="email" name="email" placeholder="Introduzca su email..." class="custom-input" [(ngModel)]="creds.email" required/>
+      <input matInput type="email" id="email" placeholder="Introduzca su email..." class="custom-input" formControlName="email"/>
     </mat-form-field>
   </div>
   <div class="input-container">
     <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>CONTRASEÑA:</mat-label>
-      <input matInput type="password" id="password" name="password" placeholder="Introduzca su contraseña..." class="custom-input" [(ngModel)]="creds.password" required/>
+      <input matInput type="password" id="password" placeholder="Introduzca su contraseña..." class="custom-input" formControlName="password"/>
     </mat-form-field>
   </div>
   <div class="forgot-password">
     <a routerLink="/recuperar-password" class="custom-link">¿Ha olvidado su contraseña?</a>
   </div>
   <div class="button-container">
-    <button mat-raised-button color="primary" class="login-button" type="submit">INGRESAR</button>
+    <button mat-raised-button color="primary" class="login-button" [disabled]="!form.valid">INGRESAR</button>
   </div>
   <div class="register-link">
     <a routerLink="/registro" class="custom-link">REGISTRARSE</a>
   </div>
 </form>
+
 
 
 

@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
+import { FormControl, Validators, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service'
-import { Credentials } from '../../models/trabajador.model'
-import { NgForm } from '@angular/forms';
+import { ApiService } from '../../services/api.service';
+import { Credentials } from '../../models/trabajador.model';
 
 @Component({
   selector: 'app-login',
@@ -10,29 +10,23 @@ import { NgForm } from '@angular/forms';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
+  form: FormGroup = new FormGroup({
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', Validators.required)
+  });
 
-  creds: Credentials = {
-    email: '',
-    password: ''
-  };
+  constructor(private router: Router, private apiService: ApiService) {}
 
-  constructor(
-    private router: Router,
-    private apiService: ApiService,
-  ) { }
-
-  login(form: NgForm) {
-    console.log('form value', form.value);
-
-    this.apiService.login(this.creds)
-      .subscribe((response) => {
-        this.router.navigate(['/admin']);
-      });
+  login() {
+    console.log('form value', this.form.value);
+    this.apiService.login(this.form.value as Credentials).subscribe(() => {
+      this.router.navigate(['/admin']);
+    });
   }
 
   navigateToForgotPassword() {
     this.router.navigate(['/recuperar-contraseña']);
   }
-
 }
+
 
