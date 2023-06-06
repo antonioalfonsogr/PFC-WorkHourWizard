@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Entity
 @Table(name = "rango_horario")
@@ -83,5 +84,29 @@ public class RangoHorario {
 
   public void setTrabajador(Trabajador trabajador) {
     this.trabajador = trabajador;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    RangoHorario that = (RangoHorario) o;
+    return Objects.equals(idRangoHorario, that.idRangoHorario) && Objects.equals(fechaHoraInicio, that.fechaHoraInicio) && Objects.equals(fechaHoraFin, that.fechaHoraFin) && Objects.equals(verificado, that.verificado);
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(idRangoHorario, fechaHoraInicio, fechaHoraFin, verificado);
+  }
+
+  @Override
+  public String toString() {
+    return "RangoHorario{" +
+            "idRangoHorario=" + idRangoHorario +
+            ", fechaHoraInicio=" + fechaHoraInicio +
+            ", fechaHoraFin=" + fechaHoraFin +
+            ", verificado=" + verificado +
+            ", trabajador=" + trabajador +
+            '}';
   }
 }

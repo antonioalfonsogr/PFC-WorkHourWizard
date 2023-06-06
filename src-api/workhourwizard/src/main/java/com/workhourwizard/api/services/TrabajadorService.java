@@ -67,11 +67,13 @@ public class TrabajadorService {
       updateTrabajador.setTelefono(trabajador.getTelefono());
       updateTrabajador.setCargo(trabajador.getCargo());
 
-      // Actualiza el gestor solo si ha cambiado
-      if (!updateTrabajador.getGestor().equals(trabajador.getGestor())) {
-        Trabajador nuevoGestor = trabajadorRepository.findById(trabajador.getGestor().getIdTrabajador()).orElse(null);
-        updateTrabajador.setGestor(nuevoGestor);
-      }
+        // Actualiza el gestor
+        if (trabajador.getGestor() != null) {
+            Trabajador nuevoGestor = trabajadorRepository.findById(trabajador.getGestor().getIdTrabajador()).orElse(null);
+            updateTrabajador.setGestor(nuevoGestor);
+        } else {
+            updateTrabajador.setGestor(null);
+        }
 
       // Actualiza la lista de trabajadoresACargo
       if (trabajador.getTrabajadoresACargo() != null) {

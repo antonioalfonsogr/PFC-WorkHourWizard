@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Table(name = "trabajador")
@@ -37,16 +38,16 @@ public class Trabajador {
   @Enumerated(EnumType.STRING)
   private Cargo cargo;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+  @ManyToOne(fetch = FetchType.EAGER)
   @JoinColumn(name = "id_gestor")
   @JsonBackReference
   private Trabajador gestor;
 
-  @OneToMany(mappedBy = "gestor", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "gestor", fetch = FetchType.EAGER)
   @JsonManagedReference
   private List<Trabajador> trabajadoresACargo;
 
-  @OneToMany(mappedBy = "trabajador", targetEntity = RangoHorario.class, fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "trabajador", targetEntity = RangoHorario.class, fetch = FetchType.EAGER)
   @JsonManagedReference
   private List<RangoHorario> rangosHorariosTrabajador;
 
@@ -165,5 +166,35 @@ public class Trabajador {
 
   public void setRangosHorariosTrabajador(List<RangoHorario> rangosHorariosTrabajador) {
     this.rangosHorariosTrabajador = rangosHorariosTrabajador;
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) return true;
+    if (o == null || getClass() != o.getClass()) return false;
+    Trabajador that = (Trabajador) o;
+    return Objects.equals(idTrabajador, that.idTrabajador) && Objects.equals(nombre, that.nombre) && Objects.equals(apellido, that.apellido) && Objects.equals(dni, that.dni) && Objects.equals(email, that.email) && Objects.equals(password, that.password) && Objects.equals(telefono, that.telefono) && cargo == that.cargo;
+  }
+
+  @Override
+  public int hashCode() {
+    return Objects.hash(idTrabajador, nombre, apellido, dni, email, password, telefono, cargo);
+  }
+
+  @Override
+  public String toString() {
+    return "Trabajador{" +
+            "idTrabajador=" + idTrabajador +
+            ", nombre='" + nombre + '\'' +
+            ", apellido='" + apellido + '\'' +
+            ", dni='" + dni + '\'' +
+            ", email='" + email + '\'' +
+            ", password='" + password + '\'' +
+            ", telefono='" + telefono + '\'' +
+            ", cargo=" + cargo +
+            ", gestor=" + gestor +
+            ", trabajadoresACargo=" + trabajadoresACargo +
+            ", rangosHorariosTrabajador=" + rangosHorariosTrabajador +
+            '}';
   }
 }
