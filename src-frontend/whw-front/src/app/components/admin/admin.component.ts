@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Trabajador } from 'src/app/models/trabajador.model';
-import { Cargo } from 'src/app/models/cargo.model';
+import { ApiService } from 'src/app/services/api.service';
 
 @Component({
   selector: 'app-admin',
@@ -10,12 +10,15 @@ import { Cargo } from 'src/app/models/cargo.model';
 })
 export class AdminComponent implements OnInit {
   workerList: Trabajador[] = [];
+  cargo: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private apiService: ApiService) { }
 
   ngOnInit() {
     console.log('AdminComponent.onInit()');
     this.getWorkerList();
+    this.getCargo();
+    console.log("El cargo es: " + this.cargo);
   }
 
   getWorkerList() {
@@ -35,6 +38,11 @@ export class AdminComponent implements OnInit {
       }
     );
   }
+
+  getCargo() {
+    this.cargo = this.apiService.getCargo();
+  }
 }
+
 
 

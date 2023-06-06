@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,8 +20,8 @@ import { MatSelectModule} from '@angular/material/select';
 
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
-
-
+import { AuthInterceptor } from './helpers/auth.interceptor';
+import { ApiService } from './services/api.service';
 
 
 @NgModule({
@@ -46,7 +46,12 @@ import { FullCalendarModule } from '@fullcalendar/angular';
     FullCalendarModule,
     ReactiveFormsModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
+
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

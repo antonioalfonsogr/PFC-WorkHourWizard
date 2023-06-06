@@ -1,5 +1,6 @@
 package com.workhourwizard.api.security;
 
+import com.workhourwizard.api.models.Cargo;
 import com.workhourwizard.api.models.Trabajador;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -50,8 +51,9 @@ public class UserDetailsImpl implements UserDetails {
     return true;
   }
 
-  public String getDni() {
-    return trabajador.getDni();
+  public String getCargo() {
+    return trabajador.getCargo().name();
   }
+
 }
 
