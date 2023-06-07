@@ -1,15 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-navbar',
   templateUrl: './navbar.component.html',
   styleUrls: ['./navbar.component.scss']
 })
-export class NavbarComponent implements OnInit {
+export class NavbarComponent implements OnInit, OnDestroy {
 
-  usuarioAutenticado : boolean = false;
+  isAuthenticated : boolean = false;
+  private authSub!: Subscription;  
 
   constructor(
     private router: Router,
@@ -17,7 +19,13 @@ export class NavbarComponent implements OnInit {
     ) { }
 
   ngOnInit(): void {
-    this.usuarioAutenticado = this.apiService.isAuthenticated();
+    this.authSub = this.apiService.authStatus$.subscribe(isAuthenticated => {
+      this.isAuthenticated = isAuthenticated;
+    });
+  }
+
+  ngOnDestroy(): void {
+    this.authSub.unsubscribe();
   }
 
   infoTrabajador() {
@@ -25,9 +33,12 @@ export class NavbarComponent implements OnInit {
   }
 
   logOut() {
+    this.apiService.logout();
     this.router.navigate(['/login']);
   }
-
 }
+
+
+
 
 

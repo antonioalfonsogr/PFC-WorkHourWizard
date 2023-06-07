@@ -5,10 +5,10 @@
     </a>
   </div>
   <div class="navbar-links">
-    <a *ngIf="usuarioAutenticado" (click)="infoTrabajador()" class="navbar-link">
+    <a *ngIf="isAuthenticated" (click)="infoTrabajador()" class="navbar-link">
       <img src="../../../assets/imgs/usuario.png" alt="Icono Información del Usuario">
     </a>
-    <a *ngIf="usuarioAutenticado" (click)="logOut()" class="navbar-link">
+    <a *ngIf="isAuthenticated" (click)="logOut()" class="navbar-link">
       <img src="../../../assets/imgs/logout.png" alt="Icono Log Out">
     </a>
   </div>

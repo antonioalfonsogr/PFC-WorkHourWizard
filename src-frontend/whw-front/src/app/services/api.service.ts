@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpResponse } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 import { Trabajador, Credentials } from '../models/trabajador.model';
@@ -9,6 +9,8 @@ import { Trabajador, Credentials } from '../models/trabajador.model';
     providedIn: 'root'
 })
 export class ApiService {
+    private authStatus = new BehaviorSubject<boolean>(this.isAuthenticated());
+    authStatus$ = this.authStatus.asObservable();
 
     constructor(
         private http: HttpClient
@@ -29,9 +31,15 @@ export class ApiService {
             const token = bearedToken.replace('Bearer ', '');
 
             localStorage.setItem('token', token);
+            this.authStatus.next(true);
 
             return body;
         }));
+    }
+
+    logout() {
+        localStorage.removeItem('token');
+        this.authStatus.next(false);
     }
 
     getToken(): string | null {
@@ -39,10 +47,9 @@ export class ApiService {
     }
 
     isAuthenticated(): boolean {
-      const token = this.getToken();
-      return !!token;
+        const token = this.getToken();
+        return !!token;
     }
-
 
     getCargo(): string | null {
         const token = this.getToken();
@@ -54,5 +61,9 @@ export class ApiService {
         return tokenPayload.cargo;
     }
 
+    registerTrabajador(newWorker: Trabajador): Observable<Trabajador> {
+        return this.http.post<Trabajador>('http://localhost:8080/api/trabajador', newWorker);
+    }
 }
+
 

@@ -11,6 +11,7 @@ import { ApiService } from 'src/app/services/api.service';
 export class AdminComponent implements OnInit {
   workerList: Trabajador[] = [];
   cargo: any;
+  isAdmin: boolean = false;
 
   constructor(private http: HttpClient, private apiService: ApiService) { }
 
@@ -18,6 +19,7 @@ export class AdminComponent implements OnInit {
     console.log('AdminComponent.onInit()');
     this.getWorkerList();
     this.getCargo();
+    this.isAdmin = this.cargo === 'ADMIN';
     console.log("El cargo es: " + this.cargo);
   }
 

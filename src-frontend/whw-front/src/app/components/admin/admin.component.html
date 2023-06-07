@@ -1,6 +1,4 @@
-<h2>El cargo es:{{ cargo }}</h2>
-
-<div class="worker-list" *ngIf="workerList.length > 0">
+<div class="worker-list" *ngIf="workerList.length > 0 && isAdmin; else notAdminMessage">
   <div *ngFor="let worker of workerList" class="worker-item">
     <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field double-width">
       <mat-label>Apellidos, Nombre:</mat-label>
@@ -20,5 +18,12 @@
     <button mat-raised-button color="primary" class="edit-button">EDITAR</button>
   </div>
 </div>
+
+<ng-template #notAdminMessage>
+  <div class="not-admin-message">
+    Debes acceder como administrador para poder ver este contenido.
+  </div>
+</ng-template>
+
 
 
