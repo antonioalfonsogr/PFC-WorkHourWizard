@@ -24,6 +24,7 @@ import { AuthInterceptor } from './helpers/auth.interceptor';
 
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
+import { EditWorkerComponent } from './components/edit-worker/edit-worker.component';
 
 
 
@@ -35,7 +36,8 @@ import { AuthService } from './services/auth.service';
     LoginComponent,
     RegistroComponent,
     AdminComponent,
-    CalendarComponent
+    CalendarComponent,
+    EditWorkerComponent
   ],
   imports: [
     BrowserModule,

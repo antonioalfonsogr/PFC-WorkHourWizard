@@ -5,9 +5,9 @@
     </a>
   </div>
   <div class="navbar-links">
-    <a *ngIf="isAuthenticated" (click)="infoTrabajador()" class="navbar-link">
+    <a *ngIf="isAuthenticated" routerLink="/edit-worker" class="navbar-link">
       <img src="../../../assets/imgs/usuario.png" alt="Icono Información del Usuario">
-    </a>
+    </a>    
     <a *ngIf="isAuthenticated" (click)="logOut()" class="navbar-link">
       <img src="../../../assets/imgs/logout.png" alt="Icono Log Out">
     </a>

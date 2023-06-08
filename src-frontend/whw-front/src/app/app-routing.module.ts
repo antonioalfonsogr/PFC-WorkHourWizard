@@ -5,6 +5,7 @@ import { LoginComponent } from './components/login/login.component';
 import { RegistroComponent } from './components/registro/registro.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
+import { EditWorkerComponent } from './components/edit-worker/edit-worker.component'; // Importa el componente EditWorkerComponent
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -12,7 +13,8 @@ const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'registro', component: RegistroComponent },
   { path: 'admin', component: AdminComponent },
-  { path: 'calendar', component: CalendarComponent }
+  { path: 'calendar', component: CalendarComponent },
+  { path: 'edit-worker', component: EditWorkerComponent } // Agrega esta línea para el componente EditWorkerComponent
 ];
 
 @NgModule({
