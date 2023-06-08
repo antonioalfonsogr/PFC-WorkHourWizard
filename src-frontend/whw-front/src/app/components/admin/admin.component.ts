@@ -29,6 +29,7 @@ export class AdminComponent implements OnInit {
     this.apiService.getTrabajadores().subscribe(
       (data) => {
         this.workerList = data;
+        this.getGestores();
       },
       (error) => {
         console.error('Error al obtener la lista de trabajadores:', error);
@@ -36,10 +37,24 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  getGestores() {
+    for (let worker of this.workerList) {
+      this.apiService.getGestor(worker).subscribe(
+        (gestor) => {
+          worker.gestor = gestor;
+        },
+        (error) => {
+          console.error(`Error al obtener el gestor del trabajador ${worker.nombre}:`, error);
+        }
+      );
+    }
+  }
+
   getCargo() {
     this.cargo = this.authService.getCargo();
   }
 }
+
 
 
 

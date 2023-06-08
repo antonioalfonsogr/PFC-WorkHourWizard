@@ -19,52 +19,23 @@ public class TrabajadorService {
     this.trabajadorRepository = trabajadorRepository;
   }
 
-  /**
-   * Obtiene todos los trabajadores.
-   *
-   * @return Lista de trabajadores
-   */
   public List<Trabajador> obtenerTrabajadores() {
     return (List<Trabajador>) trabajadorRepository.findAll();
   }
 
-  /**
-   * Obtiene un trabajador por su ID.
-   *
-   * @param idTrabajador ID del trabajador
-   * @return Trabajador (si existe)
-   */
   public Optional<Trabajador> obtenerTrabajadorPorId(Long idTrabajador) {
     return trabajadorRepository.findById(idTrabajador);
   }
 
-  /**
-   * Obtiene un trabajador por su email.
-   *
-   * @param email email del trabajador
-   * @return Trabajador (si existe)
-   */
   public Optional<Trabajador> obtenerTrabajadorPorEmail(String email) {
     return trabajadorRepository.findOneByEmail(email);
   }
 
-  /**
-   * Inserta un nuevo trabajador.
-   *
-   * @param trabajador Trabajador a insertar
-   * @return Trabajador insertado
-   */
   public Trabajador insertarTrabajador(Trabajador trabajador) {
     trabajador.setPassword(new BCryptPasswordEncoder().encode(trabajador.getPassword()));
     return trabajadorRepository.save(trabajador);
   }
 
-  /**
-   * Actualiza un trabajador existente.
-   *
-   * @param idTrabajador ID del trabajador a actualizar
-   * @param trabajador   Datos del trabajador actualizado
-   */
   public void actualizarTrabajador(Long idTrabajador, Trabajador trabajador) {
     Optional<Trabajador> optionalTrabajador = trabajadorRepository.findById(idTrabajador);
     if (optionalTrabajador.isPresent()) {
@@ -76,21 +47,18 @@ public class TrabajadorService {
       updateTrabajador.setTelefono(trabajador.getTelefono());
       updateTrabajador.setCargo(trabajador.getCargo());
 
-      // Actualiza la contraseña solo si se proporciona una nueva
       if (!trabajador.getPassword().isEmpty()) {
         String hashedPassword = new BCryptPasswordEncoder().encode(trabajador.getPassword());
         updateTrabajador.setPassword(hashedPassword);
       }
 
-        // Actualiza el gestor
-        if (trabajador.getGestor() != null) {
-            Trabajador nuevoGestor = trabajadorRepository.findById(trabajador.getGestor().getIdTrabajador()).orElse(null);
-            updateTrabajador.setGestor(nuevoGestor);
-        } else {
-            updateTrabajador.setGestor(null);
-        }
+      if (trabajador.getGestor() != null) {
+        Trabajador nuevoGestor = trabajadorRepository.findById(trabajador.getGestor().getIdTrabajador()).orElse(null);
+        updateTrabajador.setGestor(nuevoGestor);
+      } else {
+        updateTrabajador.setGestor(null);
+      }
 
-      // Actualiza la lista de trabajadoresACargo
       if (trabajador.getTrabajadoresACargo() != null) {
         for (Trabajador trabajadorACargo : trabajador.getTrabajadoresACargo()) {
           Trabajador trabajadorActualizado = trabajadorRepository.findById(trabajadorACargo.getIdTrabajador()).orElse(null);
@@ -105,14 +73,18 @@ public class TrabajadorService {
     }
   }
 
-
-  /**
-   * Elimina un trabajador por su ID.
-   *
-   * @param idTrabajador ID del trabajador a eliminar
-   */
   public void eliminarTrabajador(Long idTrabajador) {
     Optional<Trabajador> optionalTrabajador = trabajadorRepository.findById(idTrabajador);
     optionalTrabajador.ifPresent(trabajador -> trabajadorRepository.deleteById(trabajador.getIdTrabajador()));
+  }
+
+  /**
+   * Obtiene el gestor de un trabajador.
+   *
+   * @param id ID del trabajador.
+   * @return Gestor del trabajador (si existe).
+   */
+  public Optional<Trabajador> obtenerGestor(Long id) {
+    return trabajadorRepository.findById(id).map(Trabajador::getGestor);
   }
 }

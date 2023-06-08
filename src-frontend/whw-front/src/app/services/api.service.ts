@@ -26,6 +26,11 @@ export class ApiService {
     const url = `http://localhost:8080/api/trabajador/email/${email}`;
     return this.http.get<Trabajador>(url);
   }
+
+  getGestor(trabajador: Trabajador): Observable<Trabajador> {
+    const url = `http://localhost:8080/api/trabajador/${trabajador.idTrabajador}/gestor`;
+    return this.http.get<Trabajador>(url);
+  }
 }
 
 
