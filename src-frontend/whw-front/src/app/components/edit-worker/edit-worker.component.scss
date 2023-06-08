@@ -1,0 +1,65 @@
+.edit-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #e4dccf;
+    width: 60%;
+    margin: 3rem auto;
+    padding: 1rem;
+    text-align: center;
+  
+    .form-block {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      margin-bottom: 1rem;
+  
+      .input-container {
+        width: calc(50% - 0.5rem);
+        margin-bottom: 1rem;
+  
+        .my-input-focused {
+          width: 100%;
+          max-width: 25rem;
+        }
+      }
+    }
+  
+    .button-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 1rem;
+  
+      .button-group {
+        display: flex;
+        justify-content: center;
+        width: 100%;
+  
+        .cancel-button,
+        .submit-button {
+          flex-grow: 1;
+          width: 23rem;
+          margin-top: 0;
+          margin-right: 1rem;
+          padding: 1.75rem 1rem;
+          background-color: #7d9d9c !important;
+          color: white;
+          font-weight: 500;
+          font-size: 1rem;
+          transition: background-color 0.3s ease;
+  
+          &:last-child {
+            margin-right: 0;
+          }
+  
+          &:hover {
+            background-color: #576f72;
+          }
+        }
+      }
+    }
+  }
+  

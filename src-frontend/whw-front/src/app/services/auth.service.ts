@@ -55,8 +55,22 @@ export class AuthService {
     return tokenPayload.cargo;
   }
 
+  getEmail(): string | null {
+    const token = this.getToken();
+    
+    if (!token) {
+      return null;
+    }
+  
+    const tokenPayload = jwt_decode<{ sub: string }>(token);
+    
+    return tokenPayload.sub;
+  }
+
   resetPassword(data: { email: string, newPassword: string }): Observable<any> {
     return this.http.put('http://localhost:8080/api/trabajador', data);
   }
+
+  
 }
 
