@@ -46,6 +46,17 @@ public class TrabajadorController {
   }
 
   /**
+   * Obtiene un trabajador por su email.
+   *
+   * @param email email del trabajador.
+   * @return Trabajador encontrado.
+   */
+  @GetMapping("/email/{email}")
+  public Optional<Trabajador> optionalTrabajadorPorEmail(@PathVariable String email) {
+    return this.trabajadorService.obtenerTrabajadorPorEmail(email);
+  }
+
+  /**
    * Inserta un nuevo trabajador.
    *
    * @param trabajador Trabajador a insertar.

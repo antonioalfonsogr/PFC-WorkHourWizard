@@ -1,27 +1,27 @@
-<form action="" class="register-form">
+<form [formGroup]="registroForm" (ngSubmit)="onSubmit()" class="register-form">
   <div class="form-block">
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>Nombre:</mat-label>
-        <input matInput type="text" id="nombre" placeholder="Introduzca su nombre..." class="custom-input" />
+        <input matInput formControlName="nombre" type="text" placeholder="Introduzca su nombre..." class="custom-input" />
       </mat-form-field>
     </div>
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>Apellido:</mat-label>
-        <input matInput type="text" id="apellido" placeholder="Introduzca su apellido..." class="custom-input" />
+        <input matInput formControlName="apellido" type="text" placeholder="Introduzca su apellido..." class="custom-input" />
       </mat-form-field>
     </div>
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>Email:</mat-label>
-        <input matInput type="email" id="email" placeholder="Introduzca su email..." class="custom-input" />
+        <input matInput formControlName="email" type="email" placeholder="Introduzca su email..." class="custom-input" />
       </mat-form-field>
     </div>
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>Contraseña:</mat-label>
-        <input matInput type="password" id="password" placeholder="Introduzca su contraseña..." class="custom-input" />
+        <input matInput formControlName="password" type="password" placeholder="Introduzca su contraseña..." class="custom-input" />
       </mat-form-field>
     </div>
   </div>
@@ -29,19 +29,19 @@
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>DNI:</mat-label>
-        <input matInput type="text" id="dni" placeholder="Introduzca su DNI..." class="custom-input" />
+        <input matInput formControlName="dni" type="text" placeholder="Introduzca su DNI..." class="custom-input" />
       </mat-form-field>
     </div>
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>Teléfono:</mat-label>
-        <input matInput type="text" id="telefono" placeholder="Introduzca su teléfono..." class="custom-input" />
+        <input matInput formControlName="telefono" type="text" placeholder="Introduzca su teléfono..." class="custom-input" />
       </mat-form-field>
     </div>
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>Cargo:</mat-label>
-        <mat-select>
+        <mat-select formControlName="cargo">
           <mat-option value="OPERARIO">OPERARIO</mat-option>
           <mat-option value="SUPERVISOR">SUPERVISOR</mat-option>
           <mat-option value="GESTOR">GESTOR</mat-option>
@@ -52,19 +52,22 @@
     <div class="input-container">
       <mat-form-field appearance="fill" class="my-input-focused">
         <mat-label>Seleccione Gestor:</mat-label>
-        <mat-select>
-          <mat-option value="gestor1">Gestor Uno</mat-option>
-          <mat-option value="gestor2">Gestor Dos</mat-option>
-          <mat-option value="gestor3">Gestor Tres</mat-option>
+        <mat-select formControlName="gestor">
+          <mat-option value="">Sin Gestor</mat-option>
+          <mat-option *ngFor="let gestor of gestores" [value]="gestor">
+            {{gestor.nombre}} {{gestor.apellido}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
+    
   </div>
   <div class="button-container">
     <div class="button-group">
-      <button mat-raised-button color="warn" class="cancel-button">CANCELAR</button>
-      <button mat-raised-button color="primary" class="submit-button">ENVIAR</button>
+      <button type="button" mat-raised-button color="warn" (click)="onCancel()" class="cancel-button">CANCELAR</button>
+      <button type="submit" mat-raised-button color="primary" class="submit-button">ENVIAR</button>
     </div>
   </div>
 </form>
+
 

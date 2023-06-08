@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
-import { ApiService } from '../../services/api.service';
+import { AuthService } from '../../services/auth.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -15,11 +15,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
 
   constructor(
     private router: Router,
-    private apiService: ApiService
+    private authService: AuthService
     ) { }
 
   ngOnInit(): void {
-    this.authSub = this.apiService.authStatus$.subscribe(isAuthenticated => {
+    this.authSub = this.authService.authStatus$.subscribe(isAuthenticated => {
       this.isAuthenticated = isAuthenticated;
     });
   }
@@ -33,10 +33,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
   }
 
   logOut() {
-    this.apiService.logout();
+    this.authService.logout();
     this.router.navigate(['/login']);
   }
 }
+
 
 
 

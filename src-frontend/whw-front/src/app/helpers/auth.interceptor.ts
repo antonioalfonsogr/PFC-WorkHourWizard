@@ -6,17 +6,17 @@ import {
   HttpInterceptor
 } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { ApiService } from '../services/api.service';
+import { AuthService } from '../services/auth.service';
 
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
-    private apiService: ApiService
+    private authService: AuthService
   ) {}
 
   intercept(request: HttpRequest<unknown>, next: HttpHandler): Observable<HttpEvent<unknown>> {
-    const token = this.apiService.getToken();
+    const token = this.authService.getToken();
 
     if (token) {
       const cloned = request.clone({
@@ -27,3 +27,4 @@ export class AuthInterceptor implements HttpInterceptor {
     return next.handle(request);
   }
 }
+

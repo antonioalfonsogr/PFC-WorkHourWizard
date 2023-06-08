@@ -21,7 +21,10 @@ import { MatSelectModule} from '@angular/material/select';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { FullCalendarModule } from '@fullcalendar/angular';
 import { AuthInterceptor } from './helpers/auth.interceptor';
+
 import { ApiService } from './services/api.service';
+import { AuthService } from './services/auth.service';
+
 
 
 @NgModule({
@@ -50,7 +53,9 @@ import { ApiService } from './services/api.service';
     {
       provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
 
-    }
+    },
+    ApiService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })

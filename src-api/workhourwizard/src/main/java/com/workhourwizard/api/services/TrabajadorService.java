@@ -39,6 +39,16 @@ public class TrabajadorService {
   }
 
   /**
+   * Obtiene un trabajador por su email.
+   *
+   * @param email email del trabajador
+   * @return Trabajador (si existe)
+   */
+  public Optional<Trabajador> obtenerTrabajadorPorEmail(String email) {
+    return trabajadorRepository.findOneByEmail(email);
+  }
+
+  /**
    * Inserta un nuevo trabajador.
    *
    * @param trabajador Trabajador a insertar
@@ -63,9 +73,14 @@ public class TrabajadorService {
       updateTrabajador.setApellido(trabajador.getApellido());
       updateTrabajador.setDni(trabajador.getDni());
       updateTrabajador.setEmail(trabajador.getEmail());
-      updateTrabajador.setPassword(trabajador.getPassword());
       updateTrabajador.setTelefono(trabajador.getTelefono());
       updateTrabajador.setCargo(trabajador.getCargo());
+
+      // Actualiza la contraseña solo si se proporciona una nueva
+      if (!trabajador.getPassword().isEmpty()) {
+        String hashedPassword = new BCryptPasswordEncoder().encode(trabajador.getPassword());
+        updateTrabajador.setPassword(hashedPassword);
+      }
 
         // Actualiza el gestor
         if (trabajador.getGestor() != null) {
