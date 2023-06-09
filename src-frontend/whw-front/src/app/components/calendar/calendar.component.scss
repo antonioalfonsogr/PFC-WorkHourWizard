@@ -1,19 +1,50 @@
-.full-calendar{
-    width: 90%;
-    margin: 1rem auto;
-    padding: 1rem;
-    text-align: center;
+.full-calendar {
+  width: 90%;
+  margin: 1rem auto;
+  padding: 0.5rem;
+  text-align: center;
+}
 
+@media (max-width: 768px) {
+  .full-calendar {
+    width: 100%;
+  }
+}
+
+.button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.clear-button {
+  width: 100%;
+  max-width: 25rem;
+  margin-top: 1rem;
+  padding: 1.75rem 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  background-color: #7d9d9c !important;
+  color: white;
+  margin-bottom: 1rem;
+  margin-right: 1.5rem;
 }
 
 
+.save-button {
+  width: 100%;
+  max-width: 25rem;
+  margin-top: 1rem;
+  padding: 1.75rem 1rem;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background-color 0.3s ease;
+  background-color: #7d9d9c !important;
+  color: white;
+  margin-bottom: 1rem;
+}
 
-@media (max-width: 768px) {
-    .full-calendar {
-      width: 100%;
-    }
-  }
-
-
+  
 
 
