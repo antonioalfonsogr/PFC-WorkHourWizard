@@ -63,24 +63,32 @@ export class CalendarComponent implements OnInit {
   }
 
   saveEvents() {
-    const savedEvents = this.tempEvents.map(event => ({ ...event, backgroundColor: '#576f72' }));
-
-    this.calendarEvents = [...this.calendarEvents, ...savedEvents];
-
-    this.tempEvents = [];
-
-    this.calendarOptions.events = this.calendarEvents;
+    if (window.confirm('Está a punto de guardar su horario y ya no podrá ser modificado, ¿Desea continuar?')) {
+      const savedEvents = this.tempEvents.map(event => ({ ...event, backgroundColor: '#576f72' }));
+  
+      this.calendarEvents = [...this.calendarEvents, ...savedEvents];
+  
+      this.tempEvents = [];
+  
+      this.calendarOptions.events = this.calendarEvents;
+    }
   }
+  
 
   clearEvents() {
     if(this.calendarComponent?.getApi()) {
         const calendarApi = this.calendarComponent.getApi();
-        calendarApi.getEvents().forEach(event => event.remove());
+        calendarApi.getEvents().forEach((event) => {
+          if (event.backgroundColor === '#e4dccf') {
+            event.remove();
+          }
+        });
         this.tempEvents = [];
     }
 }
 
 }
+
 
 
 
