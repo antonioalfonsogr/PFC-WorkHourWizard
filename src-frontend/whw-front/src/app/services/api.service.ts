@@ -8,7 +8,7 @@ import { RangoHorario } from '../models/rangohorario.model';
   providedIn: 'root'
 })
 export class ApiService {
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient) { }
 
   getTrabajadores(): Observable<Trabajador[]> {
     return this.http.get<Trabajador[]>('http://localhost:8080/api/trabajador');
@@ -35,15 +35,20 @@ export class ApiService {
 
   insertarRangoHorario(idTrabajador: number, rangoHorario: RangoHorario): Observable<RangoHorario> {
     const url = `http://localhost:8080/api/trabajador/${idTrabajador}/rangohorario`;
-  
+
     console.log('URL de la solicitud:', url);
     console.log('JSON que se envía:', rangoHorario);
-  
-    return this.http.post<RangoHorario>(url, rangoHorario);
-}
 
-  
-  
+    return this.http.post<RangoHorario>(url, rangoHorario);
+  }
+
+  obtenerRangosHorarios(idTrabajador: number): Observable<RangoHorario[]> {
+    const url = `http://localhost:8080/api/trabajador/${idTrabajador}/rangohorario`;
+    return this.http.get<RangoHorario[]>(url);
+  }
+
+
+
 }
 
 

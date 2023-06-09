@@ -16,7 +16,7 @@ import { RangoHorario } from '../../models/rangohorario.model';
 })
 export class CalendarComponent implements OnInit {
 
-  @ViewChild('calendar', {static: false}) calendarComponent?: FullCalendarComponent;
+  @ViewChild('calendar', { static: false }) calendarComponent?: FullCalendarComponent;
 
   calendarEvents: EventInput[] = [];
 
@@ -26,7 +26,7 @@ export class CalendarComponent implements OnInit {
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       initialView: 'timeGridWeek',
@@ -42,50 +42,76 @@ export class CalendarComponent implements OnInit {
       slotDuration: '01:00:00',
       slotLabelInterval: '01:00:00',
       slotMinTime: '07:00:00',
-      slotMaxTime: '21:00:00',
+      slotMaxTime: '23:00:00',
       editable: false,
       height: '31.05rem',
-      allDaySlot: false 
+      allDaySlot: false
     };
+
+    const email = this.authService.getEmail();
+    if (email) {
+      try {
+        const trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
+
+        if (trabajador) {
+          const rangosHorarios = await this.apiService.obtenerRangosHorarios(trabajador.idTrabajador).toPromise();
+
+          if (rangosHorarios) {
+            const eventosGuardados = rangosHorarios.map(rangoHorario => ({
+              start: rangoHorario.fechaHoraInicio,
+              end: rangoHorario.fechaHoraFin,
+              allDay: false,  // Esto supone que todos los rangos horarios son no todo el día
+              backgroundColor: '#576f72',  // El color para eventos guardados
+            }));
+
+            this.calendarEvents = eventosGuardados;
+            this.calendarOptions.events = this.calendarEvents;
+          }
+        }
+      } catch (error) {
+        console.error('Error al cargar los rangos horarios:', error);
+      }
+    }
   }
+
 
   handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
-  
+
     const newEvent = {
       start: selectInfo.start.toISOString(),
       end: selectInfo.end.toISOString(),
       allDay: selectInfo.allDay,
       backgroundColor: '#e4dccf',
     };
-  
+
     this.tempEvents.push(newEvent);
-  
+
     calendarApi.addEvent(newEvent);
   }
-  
+
   saveEvents() {
     if (window.confirm('Está a punto de guardar su horario y ya no podrá ser modificado, ¿Desea continuar?')) {
       const savedEvents = this.tempEvents.map(event => ({ ...event, backgroundColor: '#576f72' }));
-  
+
       this.calendarEvents = [...this.calendarEvents, ...savedEvents];
-  
+
       this.tempEvents = [];
-  
+
       this.calendarOptions.events = this.calendarEvents;
-  
+
       const email = this.authService.getEmail();
       if (email) {
         this.handleSaveEventRequests(email, savedEvents);
       }
     }
   }
-  
+
   async handleSaveEventRequests(email: string, savedEvents: EventInput[]) {
     try {
       const trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
-  
+
       if (trabajador) {
         const apiCalls = savedEvents.map(event => {
           const rangoHorario: RangoHorario = {
@@ -95,7 +121,7 @@ export class CalendarComponent implements OnInit {
           };
           return this.apiService.insertarRangoHorario(trabajador.idTrabajador, rangoHorario).toPromise();
         });
-  
+
         if (apiCalls.length > 0) {
           await Promise.all(apiCalls);
           console.log('Eventos guardados exitosamente');
@@ -103,7 +129,7 @@ export class CalendarComponent implements OnInit {
       } else {
         console.error('No se encontró el trabajador con el correo electrónico:', email);
       }
-    } catch(error) {
+    } catch (error) {
       console.error('Error al guardar eventos:', error);
     }
   }
