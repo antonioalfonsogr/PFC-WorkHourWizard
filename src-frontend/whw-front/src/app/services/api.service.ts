@@ -35,8 +35,13 @@ export class ApiService {
 
   insertarRangoHorario(idTrabajador: number, rangoHorario: RangoHorario): Observable<RangoHorario> {
     const url = `http://localhost:8080/api/trabajador/${idTrabajador}/rangohorario`;
+  
+    console.log('URL de la solicitud:', url);
+    console.log('JSON que se envía:', rangoHorario);
+  
     return this.http.post<RangoHorario>(url, rangoHorario);
   }
+  
   
 }
 

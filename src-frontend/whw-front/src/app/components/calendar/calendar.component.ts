@@ -88,8 +88,6 @@ export class CalendarComponent implements OnInit {
                 verificado: false
               };
 
-              console.log('URL de la solicitud:', `/api/trabajador/${idTrabajador}/rangohorario`);
-              console.log('JSON que se envía:', rangoHorario);
 
               return this.apiService.insertarRangoHorario(idTrabajador, rangoHorario);
             });
