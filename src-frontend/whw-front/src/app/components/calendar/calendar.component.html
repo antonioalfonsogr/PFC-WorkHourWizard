@@ -1,10 +1,13 @@
-<div class="full-calendar">
-    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+<div>
+    <div class="full-calendar">
+        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+    </div>
+    <div class="button-container">
+        <button (click)="clearEvents()" mat-raised-button color="primary" class="clear-button">LIMPIAR</button>
+        <button (click)="onSubmit()" mat-raised-button color="primary" class="save-button">GUARDAR</button>
+    </div>
 </div>
-<div class="button-container">
-    <button (click)="clearEvents()" mat-raised-button color="primary" class="clear-button">LIMPIAR</button>
-    <button (click)="saveEvents()" mat-raised-button color="primary" class="save-button">GUARDAR</button>
-  </div>
+  
   
 
 

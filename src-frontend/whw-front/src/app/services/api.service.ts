@@ -40,7 +40,8 @@ export class ApiService {
     console.log('JSON que se envía:', rangoHorario);
   
     return this.http.post<RangoHorario>(url, rangoHorario);
-  }
+}
+
   
   
 }
