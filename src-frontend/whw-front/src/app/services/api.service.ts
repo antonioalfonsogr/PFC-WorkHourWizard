@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { Trabajador } from '../models/trabajador.model';
+import { RangoHorario } from '../models/rangohorario.model';
 
 @Injectable({
   providedIn: 'root'
@@ -31,7 +32,14 @@ export class ApiService {
     const url = `http://localhost:8080/api/trabajador/${trabajador.idTrabajador}/gestor`;
     return this.http.get<Trabajador>(url);
   }
+
+  insertarRangoHorario(idTrabajador: number, rangoHorario: RangoHorario): Observable<RangoHorario> {
+    const url = `http://localhost:8080/api/trabajador/${idTrabajador}/rangohorario`;
+    return this.http.post<RangoHorario>(url, rangoHorario);
+  }
+  
 }
+
 
 
 

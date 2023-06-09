@@ -4,6 +4,8 @@ import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
 import { Credentials } from '../models/trabajador.model';
+import { Trabajador } from '../models/trabajador.model';
+import { RangoHorario } from '../models/rangohorario.model';
 
 @Injectable({
   providedIn: 'root'
