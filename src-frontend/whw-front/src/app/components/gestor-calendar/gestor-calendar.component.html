@@ -1,9 +1,16 @@
-<div>
-    <p>Calendario de Gestor</p>
-    <div class="full-calendar">
+<ng-container *ngIf="isGestor; else notGestorContent">
+    <div>
+      <p>Calendario de Gestor</p>
+      <div class="full-calendar">
         <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+      </div>
     </div>
-</div>
-
-
+  </ng-container>
+  
+  <ng-template #notGestorContent>
+    <div class="not-gestor-message">
+      Debes acceder como gestor para poder ver este contenido.
+    </div>
+  </ng-template>
+  
 

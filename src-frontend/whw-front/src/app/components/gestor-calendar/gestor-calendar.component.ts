@@ -7,6 +7,8 @@ import { EventInput } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
+import { Trabajador } from '../../models/trabajador.model';
+import { RangoHorario } from '../../models/rangohorario.model';
 
 @Component({
   selector: 'app-gestor-calendar',
@@ -21,9 +23,13 @@ export class GestorCalendarComponent implements OnInit {
 
   calendarOptions: any;
 
+  trabajador: Trabajador | undefined | null;
+
+  isGestor: boolean = false; // Variable para comprobar si el trabajador es gestor
+
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       initialView: 'timeGridWeek',
@@ -44,12 +50,28 @@ export class GestorCalendarComponent implements OnInit {
       height: '31.05rem',
       allDaySlot: false
     };
+
+    const email = this.authService.getEmail();
+    if (email) {
+      try {
+        this.trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
+
+        console.log('trabajador:', this.trabajador);
+
+        if (this.trabajador && this.trabajador.cargo === 'GESTOR') {
+          this.isGestor = true;
+        }
+
+      } catch (error) {
+        console.error('Error', error);
+      }
+    }
   }
 
   handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
-
-
   }
+
 }
+

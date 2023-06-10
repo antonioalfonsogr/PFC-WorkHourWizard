@@ -53,6 +53,8 @@ export class CalendarComponent implements OnInit {
       try {
         const trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
 
+        console.log('trabajador:', trabajador);
+
         if (trabajador) {
           const rangosHorarios = await this.apiService.obtenerRangosHorarios(trabajador.idTrabajador).toPromise();
 
@@ -60,8 +62,8 @@ export class CalendarComponent implements OnInit {
             const eventosGuardados = rangosHorarios.map(rangoHorario => ({
               start: rangoHorario.fechaHoraInicio,
               end: rangoHorario.fechaHoraFin,
-              allDay: false,  // Esto supone que todos los rangos horarios son no todo el día
-              backgroundColor: '#576f72',  // El color para eventos guardados
+              allDay: false, 
+              backgroundColor: '#576f72', 
             }));
 
             this.calendarEvents = eventosGuardados;
