@@ -1,64 +1,68 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatSelectModule } from '@angular/material/select';
+
+import { FullCalendarModule } from '@fullcalendar/angular';
 
 import { AppRoutingModule } from './app-routing.module';
 
-import { AppComponent } from './app.component';
-import { NavbarComponent } from './components/navbar/navbar.component';
-import { FooterComponent } from './components/footer/footer.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { LoginComponent } from './components/login/login.component';
-import { RegistroComponent } from './components/registro/registro.component';
 import { AdminComponent } from './components/admin/admin.component';
-
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatButtonModule } from '@angular/material/button';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule} from '@angular/material/select';
-
+import { AppComponent } from './app.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
-import { FullCalendarModule } from '@fullcalendar/angular';
-import { AuthInterceptor } from './helpers/auth.interceptor';
+import { EditWorkerComponent } from './components/edit-worker/edit-worker.component';
+import { FooterComponent } from './components/footer/footer.component';
+import { GestorCalendarComponent } from './components/gestor-calendar/gestor-calendar.component';
+import { LoginComponent } from './components/login/login.component';
+import { NavbarComponent } from './components/navbar/navbar.component';
+import { RegistroComponent } from './components/registro/registro.component';
 
 import { ApiService } from './services/api.service';
 import { AuthService } from './services/auth.service';
-import { EditWorkerComponent } from './components/edit-worker/edit-worker.component';
 
+import { AuthInterceptor } from './helpers/auth.interceptor';
 
 
 @NgModule({
   declarations: [
-    AppComponent,
-    NavbarComponent,
-    FooterComponent,
-    LoginComponent,
-    RegistroComponent,
     AdminComponent,
+    AppComponent,
     CalendarComponent,
-    EditWorkerComponent
+    EditWorkerComponent,
+    FooterComponent,
+    GestorCalendarComponent,
+    LoginComponent,
+    NavbarComponent,
+    RegistroComponent
   ],
   imports: [
-    BrowserModule,
     AppRoutingModule,
-    HttpClientModule,
     BrowserAnimationsModule,
-    MatFormFieldModule,
+    BrowserModule,
+    FullCalendarModule,
+    HttpClientModule,
     MatButtonModule,
+    MatFormFieldModule,
     MatInputModule,
     MatSelectModule,
-    FullCalendarModule,
     ReactiveFormsModule
   ],
   providers: [
-    {
-      provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true
-
-    },
     ApiService,
-    AuthService
+    AuthService,
+    {
+      provide: HTTP_INTERCEPTORS, 
+      useClass: AuthInterceptor, 
+      multi: true
+    }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+

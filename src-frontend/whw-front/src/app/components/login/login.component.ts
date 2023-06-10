@@ -35,11 +35,14 @@ export class LoginComponent {
       const userCargo = this.authService.getCargo();
       if (userCargo === 'ADMIN') {
         this.router.navigate(['/admin']);
+      } else if (userCargo === 'GESTOR') {
+        this.router.navigate(['/gestor-calendar']);
       } else {
         this.router.navigate(['/calendar']);
       }
     });
   }
+  
 
   toggleResetPassword() {
     this.resetPasswordClicked = !this.resetPasswordClicked;

@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError } from 'rxjs/operators';
 import { Trabajador } from '../models/trabajador.model';
 import { RangoHorario } from '../models/rangohorario.model';
 
@@ -8,48 +9,56 @@ import { RangoHorario } from '../models/rangohorario.model';
   providedIn: 'root'
 })
 export class ApiService {
+  private baseUrl = 'http://localhost:8080/api';
+
   constructor(private http: HttpClient) { }
 
+  private handleError(error: HttpErrorResponse) {
+    console.error('Se produjo un error:', error);
+    return throwError(error);
+  }
+
   getTrabajadores(): Observable<Trabajador[]> {
-    return this.http.get<Trabajador[]>('http://localhost:8080/api/trabajador');
+    return this.http.get<Trabajador[]>(`${this.baseUrl}/trabajador`)
+      .pipe(catchError(this.handleError));
   }
 
   registerTrabajador(newWorker: Trabajador): Observable<Trabajador> {
-    return this.http.post<Trabajador>('http://localhost:8080/api/trabajador', newWorker);
+    return this.http.post<Trabajador>(`${this.baseUrl}/trabajador`, newWorker)
+      .pipe(catchError(this.handleError));
   }
 
   updateTrabajador(trabajador: Trabajador): Observable<Trabajador> {
-    const url = `http://localhost:8080/api/trabajador/${trabajador.idTrabajador}`;
-    return this.http.put<Trabajador>(url, trabajador);
+    const url = `${this.baseUrl}/trabajador/${trabajador.idTrabajador}`;
+    return this.http.put<Trabajador>(url, trabajador)
+      .pipe(catchError(this.handleError));
   }
 
   getTrabajadorByEmail(email: string): Observable<Trabajador> {
-    const url = `http://localhost:8080/api/trabajador/email/${email}`;
-    return this.http.get<Trabajador>(url);
+    const url = `${this.baseUrl}/trabajador/email/${email}`;
+    return this.http.get<Trabajador>(url)
+      .pipe(catchError(this.handleError));
   }
 
   getGestor(trabajador: Trabajador): Observable<Trabajador> {
-    const url = `http://localhost:8080/api/trabajador/${trabajador.idTrabajador}/gestor`;
-    return this.http.get<Trabajador>(url);
+    const url = `${this.baseUrl}/trabajador/${trabajador.idTrabajador}/gestor`;
+    return this.http.get<Trabajador>(url)
+      .pipe(catchError(this.handleError));
   }
 
   insertarRangoHorario(idTrabajador: number, rangoHorario: RangoHorario): Observable<RangoHorario> {
-    const url = `http://localhost:8080/api/trabajador/${idTrabajador}/rangohorario`;
-
-    console.log('URL de la solicitud:', url);
-    console.log('JSON que se envía:', rangoHorario);
-
-    return this.http.post<RangoHorario>(url, rangoHorario);
+    const url = `${this.baseUrl}/trabajador/${idTrabajador}/rangohorario`;
+    return this.http.post<RangoHorario>(url, rangoHorario)
+      .pipe(catchError(this.handleError));
   }
 
   obtenerRangosHorarios(idTrabajador: number): Observable<RangoHorario[]> {
-    const url = `http://localhost:8080/api/trabajador/${idTrabajador}/rangohorario`;
-    return this.http.get<RangoHorario[]>(url);
+    const url = `${this.baseUrl}/trabajador/${idTrabajador}/rangohorario`;
+    return this.http.get<RangoHorario[]>(url)
+      .pipe(catchError(this.handleError));
   }
-
-
-
 }
+
 
 
 

@@ -1,0 +1,13 @@
+.full-calendar {
+    width: 90%;
+    margin: 1rem auto;
+    padding: 0.5rem;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .full-calendar {
+      width: 100%;
+    }
+  }
+  
