@@ -11,7 +11,7 @@ export interface Trabajador {
     telefono: string;
     cargo: Cargo; 
     gestor: Trabajador | null; 
-    trabajadoresACargos: Trabajador[];
+    trabajadoresACargo: Trabajador[];
     rangosHorariosTrabajador: RangoHorario[];
   }
   

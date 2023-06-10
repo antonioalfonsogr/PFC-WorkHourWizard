@@ -25,7 +25,7 @@ export class GestorCalendarComponent implements OnInit {
 
   trabajador: Trabajador | undefined | null;
 
-  isGestor: boolean = false; // Variable para comprobar si el trabajador es gestor
+  isGestor: boolean = false; 
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
@@ -60,6 +60,29 @@ export class GestorCalendarComponent implements OnInit {
 
         if (this.trabajador && this.trabajador.cargo === 'GESTOR') {
           this.isGestor = true;
+
+          const trabajadoresACargo = this.trabajador.trabajadoresACargo;
+          console.log('trabajadoresACargo:', trabajadoresACargo);
+
+          if (trabajadoresACargo) {
+            for (const trabajadorACargo of trabajadoresACargo) {
+              const rangosHorarios = trabajadorACargo.rangosHorariosTrabajador;
+              console.log('rangosHorarios:', rangosHorarios);
+
+              if (rangosHorarios) {
+                const eventosGuardados = rangosHorarios.map(rangoHorario => ({
+                  title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}`,
+                  start: rangoHorario.fechaHoraInicio,
+                  end: rangoHorario.fechaHoraFin,
+                  allDay: false, 
+                  backgroundColor: '#576f72', 
+                }));
+                console.log('eventosGuardados:', eventosGuardados);
+                this.calendarEvents = [...this.calendarEvents, ...eventosGuardados];
+                this.calendarOptions.events = this.calendarEvents;
+              }
+            }
+          }
         }
 
       } catch (error) {
@@ -74,4 +97,7 @@ export class GestorCalendarComponent implements OnInit {
   }
 
 }
+
+
+
 
