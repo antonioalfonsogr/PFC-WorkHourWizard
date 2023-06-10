@@ -20,12 +20,12 @@ export class GestorCalendarComponent implements OnInit {
   @ViewChild('calendar', { static: false }) calendarComponent?: FullCalendarComponent;
 
   calendarEvents: EventInput[] = [];
-
+  verifyTemp: EventInput[] = [];
   calendarOptions: any;
 
   trabajador: Trabajador | undefined | null;
 
-  isGestor: boolean = false; 
+  isGestor: boolean = false;
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
@@ -33,8 +33,9 @@ export class GestorCalendarComponent implements OnInit {
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       initialView: 'timeGridWeek',
-      selectable: true,
+      selectable: false,
       select: this.handleDateSelect,
+      eventClick: this.handleEventClick,
       events: this.calendarEvents,
       headerToolbar: {
         left: 'prev,next today',
@@ -54,35 +55,42 @@ export class GestorCalendarComponent implements OnInit {
     const email = this.authService.getEmail();
     if (email) {
       try {
-        this.trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
-
-        console.log('trabajador:', this.trabajador);
+        this.trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise()!;
 
         if (this.trabajador && this.trabajador.cargo === 'GESTOR') {
           this.isGestor = true;
 
           const trabajadoresACargo = this.trabajador.trabajadoresACargo;
-          console.log('trabajadoresACargo:', trabajadoresACargo);
-
           if (trabajadoresACargo) {
             for (const trabajadorACargo of trabajadoresACargo) {
-              const rangosHorarios = trabajadorACargo.rangosHorariosTrabajador;
-              console.log('rangosHorarios:', rangosHorarios);
-
+              const rangosHorarios = trabajadorACargo.rangosHorariosTrabajador!;
               if (rangosHorarios) {
-                const eventosGuardados = rangosHorarios.map(rangoHorario => ({
-                  title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}`,
-                  start: rangoHorario.fechaHoraInicio,
-                  end: rangoHorario.fechaHoraFin,
-                  allDay: false, 
-                  backgroundColor: '#576f72', 
-                }));
-                console.log('eventosGuardados:', eventosGuardados);
+                const eventosGuardados = rangosHorarios.map(rangoHorario => {
+                  const backgroundColor = rangoHorario.verificado ? '#576f72' : '#7d9d9c';
+                  console.log('backgroundColor:', backgroundColor);
+                  console.log('verificado:', rangoHorario.verificado);
+
+                  return {
+                    title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}`,
+                    start: rangoHorario.fechaHoraInicio,
+                    end: rangoHorario.fechaHoraFin,
+                    allDay: false,
+                    backgroundColor,
+                    extendedProps: {
+                      trabajadorId: trabajadorACargo.idTrabajador,
+                      verificado: rangoHorario.verificado
+                    },
+                  };
+                });
+
                 this.calendarEvents = [...this.calendarEvents, ...eventosGuardados];
-                this.calendarOptions.events = this.calendarEvents;
+                console.log('calendarEvents:', this.calendarEvents);
               }
             }
           }
+
+          this.calendarOptions.events = this.calendarEvents;
+          console.log('calendarOptions:', this.calendarOptions);
         }
 
       } catch (error) {
@@ -96,8 +104,63 @@ export class GestorCalendarComponent implements OnInit {
     calendarApi.unselect();
   }
 
+  handleEventClick = (clickInfo: any) => {
+    const calendarApi = clickInfo.view.calendar;
+    const event = clickInfo.event;
+  
+    if (!event.extendedProps['verificado']) {
+      event.setProp('backgroundColor', '#e4dccf');
+      event.setExtendedProp('verificado', true);
+  
+      this.verifyTemp.push(event);
+  
+      this.calendarEvents = [...this.calendarEvents];
+  
+      calendarApi.refetchEvents();
+    } else {
+      event.setProp('backgroundColor', '#7d9d9c');
+      event.setExtendedProp('verificado', false);
+  
+      const index = this.verifyTemp.findIndex(ev => ev.id === event.id);
+      if (index !== -1) {
+        this.verifyTemp.splice(index, 1);
+      }
+    }
+  }
+
+  verifyEvents() {
+    if (window.confirm('¿Está seguro de verificar los eventos seleccionados?')) {
+      const verifiedEvents = this.verifyTemp.map(event => ({
+        ...event,
+        backgroundColor: '#576f72',
+        extendedProps: {
+          ...event.extendedProps,
+          verificado: true
+        }
+      }));
+
+      this.calendarEvents = [...this.calendarEvents, ...verifiedEvents];
+
+      this.verifyTemp = [];
+
+      this.calendarOptions.events = this.calendarEvents;
+    }
+  }
+
+  clearEvents() {
+    if (this.calendarComponent?.getApi()) {
+      const calendarApi = this.calendarComponent.getApi();
+      calendarApi.getEvents().forEach((event) => {
+        if (event.extendedProps['verificado']) {
+          event.setProp('backgroundColor', '#7d9d9c');
+          event.setExtendedProp('verificado', false);
+
+          const index = this.verifyTemp.findIndex(ev => ev.id === event.id);
+          if (index !== -1) {
+            this.verifyTemp.splice(index, 1);
+          }
+        }
+      });
+    }
+  }
 }
-
-
-
-
