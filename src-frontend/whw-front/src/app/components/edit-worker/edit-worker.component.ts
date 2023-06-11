@@ -14,6 +14,7 @@ export class EditWorkerComponent implements OnInit {
   editWorkerForm: FormGroup;
   gestores: Trabajador[] = [];
   worker: Trabajador | null = null;
+  location: any;
 
   constructor(
     private fb: FormBuilder,
@@ -41,7 +42,10 @@ export class EditWorkerComponent implements OnInit {
     } else {
       this.getCurrentWorker();
     }
+  
+    this.getGestores(); 
   }
+  
 
   getGestores() {
     this.apiService.getTrabajadores().subscribe(
@@ -134,7 +138,22 @@ export class EditWorkerComponent implements OnInit {
         .subscribe(
           response => {
             console.log(response);
-            this.router.navigate(['']);
+            const userCargo = this.authService.getCargo();
+            switch (userCargo) {
+              case 'ADMIN':
+                this.router.navigate(['/admin']);
+                break;
+              case 'GESTOR':
+                this.router.navigate(['/gestor-calendar']);
+                break;
+              case 'OPERARIO':
+              case 'SUPERVISOR':
+                this.router.navigate(['/calendar']);
+                break;
+              default:
+                this.router.navigate(['/']);
+                break;
+            }
           },
           error => {
             console.error(error);
@@ -144,7 +163,22 @@ export class EditWorkerComponent implements OnInit {
   }
 
   onCancel() {
-    this.router.navigate(['']);
+    const userCargo = this.authService.getCargo();
+    switch (userCargo) {
+      case 'ADMIN':
+        this.router.navigate(['/admin']);
+        break;
+      case 'GESTOR':
+        this.router.navigate(['/gestor-calendar']);
+        break;
+      case 'OPERARIO':
+      case 'SUPERVISOR':
+        this.router.navigate(['/calendar']);
+        break;
+      default:
+        this.router.navigate(['/']);
+        break;
+    }
   }
 
   confirmDelete() {
@@ -154,7 +188,22 @@ export class EditWorkerComponent implements OnInit {
       this.apiService.deleteTrabajador(this.worker.idTrabajador).subscribe(
         () => {
           console.log('Trabajador eliminado con éxito');
-          this.router.navigate(['/'])
+          const userCargo = this.authService.getCargo();
+          switch (userCargo) {
+            case 'ADMIN':
+              this.router.navigate(['/admin']);
+              break;
+            case 'GESTOR':
+              this.router.navigate(['/gestor-calendar']);
+              break;
+            case 'OPERARIO':
+            case 'SUPERVISOR':
+              this.router.navigate(['/calendar']);
+              break;
+            default:
+              this.router.navigate(['/']);
+              break;
+          }
         },
         error => {
           console.error('Error al eliminar el trabajador:', error);

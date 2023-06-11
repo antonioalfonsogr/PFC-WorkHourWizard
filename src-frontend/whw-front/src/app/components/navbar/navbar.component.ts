@@ -28,6 +28,26 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authSub.unsubscribe();
   }
 
+  navigateBasedOnRole(): void {
+    const userCargo = this.authService.getCargo();
+    switch (userCargo) {
+      case 'ADMIN':
+        this.router.navigate(['/admin']);
+        break;
+      case 'GESTOR':
+        this.router.navigate(['/gestor-calendar']);
+        break;
+      case 'OPERARIO':
+      case 'SUPERVISOR':
+        this.router.navigate(['/calendar']);
+        break;
+      default:
+        this.router.navigate(['/']);
+        break;
+    }
+  }
+
+
   infoTrabajador(): void {
     this.router.navigate(['/info-trabajador']);
   }
@@ -37,6 +57,7 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 }
+
 
 
 
