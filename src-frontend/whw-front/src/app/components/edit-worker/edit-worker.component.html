@@ -1,72 +1,82 @@
 <form [formGroup]="editWorkerForm" (ngSubmit)="onSubmit()" class="edit-form">
-    <div class="form-block">
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>Nombre:</mat-label>
-          <input matInput formControlName="nombre" type="text" placeholder="Introduzca su nombre..." class="custom-input" />
-        </mat-form-field>
-      </div>
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>Apellido:</mat-label>
-          <input matInput formControlName="apellido" type="text" placeholder="Introduzca su apellido..." class="custom-input" />
-        </mat-form-field>
-      </div>
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>Email:</mat-label>
-          <input matInput formControlName="email" type="email" placeholder="Introduzca su email..." class="custom-input" />
-        </mat-form-field>
-      </div>
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>Contraseña:</mat-label>
-          <input matInput formControlName="password" type="password" placeholder="Introduzca su contraseña..." class="custom-input" />
-        </mat-form-field>
-      </div>
+  <div class="form-block">
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>Nombre:</mat-label>
+        <input matInput formControlName="nombre" type="text" placeholder="Introduzca su nombre..."
+          class="custom-input" />
+      </mat-form-field>
     </div>
-    <div class="form-block">
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>DNI:</mat-label>
-          <input matInput formControlName="dni" type="text" placeholder="Introduzca su DNI..." class="custom-input" />
-        </mat-form-field>
-      </div>
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>Teléfono:</mat-label>
-          <input matInput formControlName="telefono" type="text" placeholder="Introduzca su teléfono..." class="custom-input" />
-        </mat-form-field>
-      </div>
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>Cargo:</mat-label>
-          <mat-select formControlName="cargo">
-            <mat-option value="OPERARIO">OPERARIO</mat-option>
-            <mat-option value="SUPERVISOR">SUPERVISOR</mat-option>
-            <mat-option value="GESTOR">GESTOR</mat-option>
-            <mat-option value="ADMIN">ADMIN</mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      <div class="input-container">
-        <mat-form-field appearance="fill" class="my-input-focused">
-          <mat-label>Seleccione Gestor:</mat-label>
-          <mat-select formControlName="gestor">
-            <mat-option value="">Sin Gestor</mat-option>
-            <mat-option *ngFor="let gestor of gestores" [value]="gestor">
-              {{gestor.nombre}} {{gestor.apellido}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>
-      </div>
-      
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>Apellido:</mat-label>
+        <input matInput formControlName="apellido" type="text" placeholder="Introduzca su apellido..."
+          class="custom-input" />
+      </mat-form-field>
     </div>
-    <div class="button-container">
-        <div class="button-group">
-          <button type="button" mat-raised-button color="warn" (click)="onCancel()" class="cancel-button">CANCELAR</button>
-          <button type="submit" mat-raised-button color="primary" class="submit-button">ACTUALIZAR</button>
-        </div>
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>Email:</mat-label>
+        <input matInput formControlName="email" type="email" placeholder="Introduzca su email..."
+          class="custom-input" />
+      </mat-form-field>
     </div>
-  </form>
-  
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>Contraseña:</mat-label>
+        <input matInput formControlName="password" type="password" placeholder="Introduzca su contraseña..."
+          class="custom-input" />
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="form-block">
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>DNI:</mat-label>
+        <input matInput formControlName="dni" type="text" placeholder="Introduzca su DNI..." class="custom-input" />
+      </mat-form-field>
+    </div>
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>Teléfono:</mat-label>
+        <input matInput formControlName="telefono" type="text" placeholder="Introduzca su teléfono..."
+          class="custom-input" />
+      </mat-form-field>
+    </div>
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>Cargo:</mat-label>
+        <mat-select formControlName="cargo">
+          <mat-option value="OPERARIO">OPERARIO</mat-option>
+          <mat-option value="SUPERVISOR">SUPERVISOR</mat-option>
+          <mat-option value="GESTOR">GESTOR</mat-option>
+          <mat-option value="ADMIN">ADMIN</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="input-container">
+      <mat-form-field appearance="fill" class="my-input-focused">
+        <mat-label>Seleccione Gestor:</mat-label>
+        <mat-select formControlName="gestor">
+          <mat-option value="">Sin Gestor</mat-option>
+          <mat-option *ngFor="let gestor of gestores" [value]="gestor">
+            {{ gestor.nombre }} {{ gestor.apellido }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+  </div>
+  <div class="button-container">
+    <div class="button-group">
+      <button type="button" mat-raised-button color="warn" (click)="onCancel()" class="cancel-button">
+        CANCELAR
+      </button>
+      <button type="submit" mat-raised-button color="primary" class="submit-button">
+        ACTUALIZAR
+      </button>
+    </div>
+  </div>
+  <div class="delete-button-container">
+    <button class="delete-button" type="button" (click)="confirmDelete()">Eliminar usuario</button>
+  </div>
+</form>

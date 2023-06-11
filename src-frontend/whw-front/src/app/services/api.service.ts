@@ -57,6 +57,13 @@ export class ApiService {
     return this.http.get<RangoHorario[]>(url)
       .pipe(catchError(this.handleError));
   }
+
+  deleteTrabajador(idTrabajador: number): Observable<void> {
+    const url = `${this.baseUrl}/trabajador/${idTrabajador}`;
+    return this.http.delete<void>(url)
+      .pipe(catchError(this.handleError));
+  }
+  
 }
 
 

@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
 import { EventInput } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -16,7 +16,6 @@ import { RangoHorario } from '../../models/rangohorario.model';
   styleUrls: ['./gestor-calendar.component.scss']
 })
 export class GestorCalendarComponent implements OnInit {
-
   @ViewChild('calendar', { static: false }) calendarComponent?: FullCalendarComponent;
 
   calendarEvents: EventInput[] = [];
@@ -24,7 +23,6 @@ export class GestorCalendarComponent implements OnInit {
   calendarOptions: any;
 
   trabajador: Trabajador | undefined | null;
-
   isGestor: boolean = false;
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
@@ -34,7 +32,7 @@ export class GestorCalendarComponent implements OnInit {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
       initialView: 'timeGridWeek',
       selectable: false,
-      select: this.handleDateSelect,
+      editable: false,
       eventClick: this.handleEventClick,
       events: this.calendarEvents,
       headerToolbar: {
@@ -47,7 +45,6 @@ export class GestorCalendarComponent implements OnInit {
       slotLabelInterval: '01:00:00',
       slotMinTime: '07:00:00',
       slotMaxTime: '23:00:00',
-      editable: false,
       height: '31.05rem',
       allDaySlot: false
     };
@@ -65,72 +62,48 @@ export class GestorCalendarComponent implements OnInit {
             for (const trabajadorACargo of trabajadoresACargo) {
               const rangosHorarios = trabajadorACargo.rangosHorariosTrabajador!;
               if (rangosHorarios) {
-                const eventosGuardados = rangosHorarios.map(rangoHorario => {
-                  const backgroundColor = rangoHorario.verificado ? '#576f72' : '#7d9d9c';
-                  console.log('backgroundColor:', backgroundColor);
-                  console.log('verificado:', rangoHorario.verificado);
-
-                  return {
-                    title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}`,
-                    start: rangoHorario.fechaHoraInicio,
-                    end: rangoHorario.fechaHoraFin,
-                    allDay: false,
-                    backgroundColor,
-                    extendedProps: {
-                      trabajadorId: trabajadorACargo.idTrabajador,
-                      verificado: rangoHorario.verificado
-                    },
-                  };
-                });
+                const eventosGuardados = rangosHorarios.map((rangoHorario) => ({
+                  title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}`,
+                  start: rangoHorario.fechaHoraInicio,
+                  end: rangoHorario.fechaHoraFin,
+                  allDay: false,
+                  backgroundColor: rangoHorario.verificado ? '#576f72' : '#7d9d9c',
+                  extendedProps: {
+                    trabajadorId: trabajadorACargo.idTrabajador,
+                    verificado: rangoHorario.verificado
+                  }
+                }));
 
                 this.calendarEvents = [...this.calendarEvents, ...eventosGuardados];
-                console.log('calendarEvents:', this.calendarEvents);
               }
             }
           }
 
           this.calendarOptions.events = this.calendarEvents;
-          console.log('calendarOptions:', this.calendarOptions);
         }
-
       } catch (error) {
         console.error('Error', error);
       }
     }
   }
 
-  handleDateSelect = (selectInfo: any) => {
-    const calendarApi = selectInfo.view.calendar;
-    calendarApi.unselect();
-  }
-
   handleEventClick = (clickInfo: any) => {
-    const calendarApi = clickInfo.view.calendar;
     const event = clickInfo.event;
-  
     if (!event.extendedProps['verificado']) {
       event.setProp('backgroundColor', '#e4dccf');
       event.setExtendedProp('verificado', true);
-  
+
       this.verifyTemp.push(event);
-  
+
       this.calendarEvents = [...this.calendarEvents];
-  
-      calendarApi.refetchEvents();
-    } else {
-      event.setProp('backgroundColor', '#7d9d9c');
-      event.setExtendedProp('verificado', false);
-  
-      const index = this.verifyTemp.findIndex(ev => ev.id === event.id);
-      if (index !== -1) {
-        this.verifyTemp.splice(index, 1);
-      }
+
+      this.calendarComponent?.getApi()?.refetchEvents();
     }
   }
 
   verifyEvents() {
     if (window.confirm('¿Está seguro de verificar los eventos seleccionados?')) {
-      const verifiedEvents = this.verifyTemp.map(event => ({
+      const verifiedEvents = this.verifyTemp.map((event) => ({
         ...event,
         backgroundColor: '#576f72',
         extendedProps: {
@@ -147,20 +120,23 @@ export class GestorCalendarComponent implements OnInit {
     }
   }
 
+
   clearEvents() {
     if (this.calendarComponent?.getApi()) {
       const calendarApi = this.calendarComponent.getApi();
       calendarApi.getEvents().forEach((event) => {
-        if (event.extendedProps['verificado']) {
-          event.setProp('backgroundColor', '#7d9d9c');
-          event.setExtendedProp('verificado', false);
-
-          const index = this.verifyTemp.findIndex(ev => ev.id === event.id);
-          if (index !== -1) {
-            this.verifyTemp.splice(index, 1);
+        this.verifyTemp.forEach((tempEvent) => {
+          if (event.id === tempEvent.id) {
+            tempEvent['setProp']('backgroundColor', '#7d9d9c');
+            tempEvent['setExtendedProp']('verificado', false);
           }
-        }
+        });
       });
+
     }
+    this.verifyTemp = [];
   }
+
+
+
 }

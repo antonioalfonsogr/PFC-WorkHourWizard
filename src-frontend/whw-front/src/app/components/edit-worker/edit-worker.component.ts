@@ -57,7 +57,7 @@ export class EditWorkerComponent implements OnInit {
         (worker) => {
           this.worker = worker;
           console.log('Trabajador obtenido:', this.worker);
-          if (this.worker && this.worker.gestor) {
+          if (this.worker) {
             console.log('Intentando obtener gestor para trabajador:', this.worker);
             this.getGestorForWorker();
           } else {
@@ -73,38 +73,45 @@ export class EditWorkerComponent implements OnInit {
   }
   
   getGestorForWorker() {
- if (this.worker){
+    if (this.worker) {
       this.apiService.getGestor(this.worker).subscribe(
         (gestor) => {
           console.log('Gestor obtenido:', gestor);
-          if(this.worker){          
-            this.worker.gestor = gestor ? gestor : null;
-            this.fillForm(this.worker);}
+          if (gestor) {
+            this.worker!.gestor = gestor;
+            this.fillForm(this.worker!);
+          } else {
+            console.log('Trabajador sin gestor, llenando formulario directamente');
+            this.fillForm(this.worker!);
+          }
         },
         (error) => {
           console.error('Error al obtener el gestor del trabajador:', error);
         }
       );
     } else {
-      console.log('Trabajador sin gestor, llenando formulario directamente');
-      if(this.worker)
-      this.fillForm(this.worker);
+      console.log('Trabajador nulo, llenando formulario directamente');
+      this.fillForm(null);
     }
   }
   
-
-  fillForm(worker: Trabajador) {
-    this.editWorkerForm.patchValue({
-      nombre: worker.nombre,
-      apellido: worker.apellido,
-      email: worker.email,
-      password: '',
-      dni: worker.dni,
-      telefono: worker.telefono,
-      cargo: worker.cargo,
-      gestor: worker.gestor ? worker.gestor : ''
-    });
-}
+  
+  fillForm(worker: Trabajador | null) {
+    if (worker) {
+      const gestorSeleccionado = this.gestores.find(gestor => gestor.idTrabajador === worker.gestor?.idTrabajador);
+      this.editWorkerForm.patchValue({
+        nombre: worker.nombre,
+        apellido: worker.apellido,
+        email: worker.email,
+        password: '',
+        dni: worker.dni,
+        telefono: worker.telefono,
+        cargo: worker.cargo,
+        gestor: gestorSeleccionado
+      });
+    }
+  }
+  
 
 
   onSubmit() {
@@ -135,5 +142,24 @@ export class EditWorkerComponent implements OnInit {
   onCancel() {
     this.router.navigate(['']);
   }
+
+  confirmDelete() {
+    const confirmationMessage = '¿Está seguro de eliminar al usuario ' + this.worker?.email + '?';
+  
+    if (window.confirm(confirmationMessage)) {
+      if (this.worker) {
+        this.apiService.deleteTrabajador(this.worker.idTrabajador).subscribe(
+          () => {
+            console.log('Trabajador eliminado con éxito');
+            this.router.navigate(['/'])
+          },
+          error => {
+            console.error('Error al eliminar el trabajador:', error);
+          }
+        );
+      }
+    }
+  }
+  
 }
 
