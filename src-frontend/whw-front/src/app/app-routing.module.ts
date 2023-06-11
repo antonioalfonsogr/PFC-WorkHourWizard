@@ -16,6 +16,7 @@ const routes: Routes = [
   { path: 'admin', component: AdminComponent },
   { path: 'calendar', component: CalendarComponent },
   { path: 'edit-worker', component: EditWorkerComponent },
+  { path: 'edit-worker/:idTrabajador', component: EditWorkerComponent },
   { path: 'gestor-calendar', component: GestorCalendarComponent } 
 ];
 

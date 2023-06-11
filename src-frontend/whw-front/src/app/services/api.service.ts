@@ -40,6 +40,12 @@ export class ApiService {
       .pipe(catchError(this.handleError));
   }
 
+  getTrabajadorById(idTrabajador: number): Observable<Trabajador> {
+    const url = `${this.baseUrl}/trabajador/${idTrabajador}`;
+    return this.http.get<Trabajador>(url)
+      .pipe(catchError(this.handleError));
+  }
+  
   getGestor(trabajador: Trabajador): Observable<Trabajador> {
     const url = `${this.baseUrl}/trabajador/${trabajador.idTrabajador}/gestor`;
     return this.http.get<Trabajador>(url)

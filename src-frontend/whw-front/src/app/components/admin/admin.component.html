@@ -15,7 +15,8 @@
       <input matInput [value]="worker.gestor?.nombre || 'N/A'" readonly class="custom-input" />
     </mat-form-field>
 
-    <button mat-raised-button color="primary" class="edit-button">EDITAR</button>
+    <button mat-raised-button color="primary" class="edit-button" [routerLink]="['/edit-worker', worker.idTrabajador]">EDITAR</button>
+
   </div>
 </div>
 

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Trabajador } from '../../models/trabajador.model';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-worker',
@@ -19,7 +20,8 @@ export class EditWorkerComponent implements OnInit {
     private fb: FormBuilder,
     private router: Router,
     private apiService: ApiService,
-    private authService: AuthService
+    private authService: AuthService,
+    private activatedRoute: ActivatedRoute
   ) {
     this.editWorkerForm = this.fb.group({
       nombre: ['', ],
@@ -34,9 +36,14 @@ export class EditWorkerComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.getGestores();
-    this.getCurrentWorker();
+    const idTrabajador = parseInt(this.activatedRoute.snapshot.paramMap.get('idTrabajador')!, 10);
+    if (!isNaN(idTrabajador)) {
+      this.getWorkerById(idTrabajador);
+    } else {
+      this.getCurrentWorker();
+    }
   }
+  
 
   getGestores() {
     this.apiService.getTrabajadores().subscribe(
@@ -49,6 +56,20 @@ export class EditWorkerComponent implements OnInit {
     );
   }
 
+  getWorkerById(idTrabajador: number) {
+    this.apiService.getTrabajadorById(idTrabajador).subscribe(
+      (worker) => {
+        this.worker = worker;
+        this.getGestorForWorker();
+        this.fillForm(this.worker);
+      },
+      (error) => {
+        console.error('Error al obtener trabajador por ID:', error);
+      }
+    );
+  }
+  
+
   getCurrentWorker() {
     const email = this.authService.getEmail();
     console.log('Email obtenido:', email);
@@ -60,8 +81,6 @@ export class EditWorkerComponent implements OnInit {
           if (this.worker) {
             console.log('Intentando obtener gestor para trabajador:', this.worker);
             this.getGestorForWorker();
-          } else {
-            console.log('Trabajador sin gestor, llenando formulario directamente');
             this.fillForm(this.worker);
           }
         },
@@ -95,7 +114,6 @@ export class EditWorkerComponent implements OnInit {
     }
   }
   
-  
   fillForm(worker: Trabajador | null) {
     if (worker) {
       const gestorSeleccionado = this.gestores.find(gestor => gestor.idTrabajador === worker.gestor?.idTrabajador);
@@ -111,8 +129,6 @@ export class EditWorkerComponent implements OnInit {
       });
     }
   }
-  
-
 
   onSubmit() {
     if (this.editWorkerForm.valid) {
@@ -160,6 +176,4 @@ export class EditWorkerComponent implements OnInit {
       }
     }
   }
-  
 }
-
