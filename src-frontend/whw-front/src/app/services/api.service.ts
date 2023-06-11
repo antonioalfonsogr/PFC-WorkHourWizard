@@ -54,9 +54,17 @@ export class ApiService {
 
   insertarRangoHorario(idTrabajador: number, rangoHorario: RangoHorario): Observable<RangoHorario> {
     const url = `${this.baseUrl}/trabajador/${idTrabajador}/rangohorario`;
-    return this.http.post<RangoHorario>(url, rangoHorario)
+  
+    const rangoHorarioToSend: RangoHorario = {
+      ...rangoHorario,
+      fechaHoraInicio: new Date(rangoHorario.fechaHoraInicio),
+      fechaHoraFin: new Date(rangoHorario.fechaHoraFin)
+    };
+    console.log('Rango horario a enviar:', rangoHorarioToSend);
+    return this.http.post<RangoHorario>(url, rangoHorarioToSend)
       .pipe(catchError(this.handleError));
   }
+  
 
   obtenerRangosHorarios(idTrabajador: number): Observable<RangoHorario[]> {
     const url = `${this.baseUrl}/trabajador/${idTrabajador}/rangohorario`;

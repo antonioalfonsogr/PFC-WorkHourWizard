@@ -64,6 +64,7 @@ public class RangoHorarioController {
   public RangoHorario insertarRangoHorario(
           @PathVariable(name = "idTrabajador") Long idTrabajador,
           @RequestBody RangoHorario rangoHorario) {
+    System.out.println("Insertando rango horario:" + rangoHorario);
     return this.rangoHorarioService.insertarRangoHorario(idTrabajador, rangoHorario);
   }
 

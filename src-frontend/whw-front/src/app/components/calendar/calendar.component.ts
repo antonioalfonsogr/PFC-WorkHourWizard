@@ -45,7 +45,8 @@ export class CalendarComponent implements OnInit {
       slotMaxTime: '23:00:00',
       editable: false,
       height: '31.05rem',
-      allDaySlot: false
+      allDaySlot: false,
+      timeZone: 'local'
     };
 
     const email = this.authService.getEmail();

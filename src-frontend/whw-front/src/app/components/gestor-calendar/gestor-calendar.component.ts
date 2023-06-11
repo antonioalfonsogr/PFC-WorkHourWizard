@@ -46,7 +46,8 @@ export class GestorCalendarComponent implements OnInit {
       slotMinTime: '07:00:00',
       slotMaxTime: '23:00:00',
       height: '31.05rem',
-      allDaySlot: false
+      allDaySlot: false,
+      timeZone: 'local'
     };
   
     const email = this.authService.getEmail();
