@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  mysql-db:
+    image: mysql:8.0.22
+    volumes:
+      - db_data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: workhourwizard
+      MYSQL_USER: user
+      MYSQL_PASSWORD: user
+
+  back:
+    build:
+      context: ./whw-back
+      dockerfile: Dockerfile
+    depends_on:
+      - mysql-db
+
+  front:
+    build:
+      context: ./whw-front
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - back
+
+volumes:
+  db_data:
+
