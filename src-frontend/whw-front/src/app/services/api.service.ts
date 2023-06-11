@@ -69,6 +69,14 @@ export class ApiService {
     return this.http.delete<void>(url)
       .pipe(catchError(this.handleError));
   }
+
+  updateRangoHorario(idTrabajador: number, idRangoHorario: number, rangoHorario: RangoHorario): Observable<RangoHorario> {
+    const url = `${this.baseUrl}/trabajador/${idTrabajador}/rangohorario/${idRangoHorario}`;
+  
+    return this.http.put<RangoHorario>(url, rangoHorario)
+      .pipe(catchError(this.handleError));
+  }
+  
   
 }
 

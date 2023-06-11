@@ -48,37 +48,39 @@ export class GestorCalendarComponent implements OnInit {
       height: '31.05rem',
       allDaySlot: false
     };
-
+  
     const email = this.authService.getEmail();
     if (email) {
       try {
-        this.trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise()!;
-
+        this.trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
+  
         if (this.trabajador && this.trabajador.cargo === 'GESTOR') {
           this.isGestor = true;
-
+  
           const trabajadoresACargo = this.trabajador.trabajadoresACargo;
           if (trabajadoresACargo) {
             for (const trabajadorACargo of trabajadoresACargo) {
               const rangosHorarios = trabajadorACargo.rangosHorariosTrabajador!;
               if (rangosHorarios) {
                 const eventosGuardados = rangosHorarios.map((rangoHorario) => ({
-                  title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}`,
-                  start: rangoHorario.fechaHoraInicio,
-                  end: rangoHorario.fechaHoraFin,
+                  title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}` + (rangoHorario.verificado ? ' -Verificado-' : ''),
+                  start: new Date(rangoHorario.fechaHoraInicio),
+                  end: new Date(rangoHorario.fechaHoraFin),
                   allDay: false,
                   backgroundColor: rangoHorario.verificado ? '#576f72' : '#7d9d9c',
                   extendedProps: {
                     trabajadorId: trabajadorACargo.idTrabajador,
-                    verificado: rangoHorario.verificado
+                    verificado: rangoHorario.verificado,
+                    idRangoHorario: rangoHorario.idRangoHorario
                   }
                 }));
-
+                
+  
                 this.calendarEvents = [...this.calendarEvents, ...eventosGuardados];
               }
             }
           }
-
+  
           this.calendarOptions.events = this.calendarEvents;
         }
       } catch (error) {
@@ -86,40 +88,58 @@ export class GestorCalendarComponent implements OnInit {
       }
     }
   }
-
+  
+  
   handleEventClick = (clickInfo: any) => {
     const event = clickInfo.event;
-    if (!event.extendedProps['verificado']) {
+    if (event.extendedProps && !event.extendedProps.verificado) {
       event.setProp('backgroundColor', '#e4dccf');
       event.setExtendedProp('verificado', true);
-
       this.verifyTemp.push(event);
-
-      this.calendarEvents = [...this.calendarEvents];
-
       this.calendarComponent?.getApi()?.refetchEvents();
     }
   }
 
+
   verifyEvents() {
     if (window.confirm('¿Está seguro de verificar los eventos seleccionados?')) {
-      const verifiedEvents = this.verifyTemp.map((event) => ({
-        ...event,
-        backgroundColor: '#576f72',
-        extendedProps: {
-          ...event.extendedProps,
-          verificado: true
+      const updatedRangosHorarios: RangoHorario[] = [];
+      for (const event of this.verifyTemp) {
+        if (event.extendedProps) {
+          const trabajadorACargo = this.trabajador?.trabajadoresACargo.find(t => t.idTrabajador === event.extendedProps!['trabajadorId']);
+          const rangoHorario: RangoHorario = {
+            idRangoHorario: event.extendedProps!['idRangoHorario'] as number,
+            fechaHoraInicio: (event.start as Date).toISOString(),
+            fechaHoraFin: (event.end as Date).toISOString(),
+            verificado: true,
+            trabajador: trabajadorACargo || undefined
+          };
+          updatedRangosHorarios.push(rangoHorario);
         }
-      }));
-
-      this.calendarEvents = [...this.calendarEvents, ...verifiedEvents];
-
-      this.verifyTemp = [];
-
-      this.calendarOptions.events = this.calendarEvents;
+      }
+  
+      for (const rangoHorario of updatedRangosHorarios) {
+        if (rangoHorario.trabajador && rangoHorario.idRangoHorario) {
+          this.apiService.updateRangoHorario(rangoHorario.trabajador.idTrabajador, rangoHorario.idRangoHorario, rangoHorario).subscribe(
+            () => {
+              this.verifyTemp.forEach((event) => {
+                if (event.extendedProps) {
+                  event['setProp']('backgroundColor', '#576f72');
+                  event['setExtendedProp']('verificado', true);
+                }
+              });
+              this.verifyTemp = [];
+              this.calendarComponent?.getApi()?.refetchEvents();
+            },
+            (error) => {
+              console.error('Error al actualizar los rangos horarios:', error);
+            }
+          );
+        }
+      }
     }
   }
-
+  
 
   clearEvents() {
     if (this.calendarComponent?.getApi()) {
@@ -132,11 +152,7 @@ export class GestorCalendarComponent implements OnInit {
           }
         });
       });
-
     }
     this.verifyTemp = [];
   }
-
-
-
 }

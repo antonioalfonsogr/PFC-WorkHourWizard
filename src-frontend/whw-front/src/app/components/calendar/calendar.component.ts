@@ -62,8 +62,9 @@ export class CalendarComponent implements OnInit {
             const eventosGuardados = rangosHorarios.map(rangoHorario => ({
               start: rangoHorario.fechaHoraInicio,
               end: rangoHorario.fechaHoraFin,
-              allDay: false, 
-              backgroundColor: '#576f72', 
+              allDay: false,
+              backgroundColor: rangoHorario.verificado ? '#576f72' : '#7d9d9c',
+              title: rangoHorario.verificado ? `${trabajador.nombre} ${trabajador.apellido} --Verificado--` : `${trabajador.nombre} ${trabajador.apellido}`
             }));
 
             this.calendarEvents = eventosGuardados;
