@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import timeGridPlugin from '@fullcalendar/timegrid';
-import interactionPlugin from "@fullcalendar/interaction";
+import interactionPlugin from '@fullcalendar/interaction';
 import esLocale from '@fullcalendar/core/locales/es';
 import { EventInput } from '@fullcalendar/core';
 import { FullCalendarComponent } from '@fullcalendar/angular';
@@ -15,13 +15,10 @@ import { RangoHorario } from '../../models/rangohorario.model';
   styleUrls: ['./calendar.component.scss']
 })
 export class CalendarComponent implements OnInit {
-
   @ViewChild('calendar', { static: false }) calendarComponent?: FullCalendarComponent;
 
   calendarEvents: EventInput[] = [];
-
   calendarOptions: any;
-
   tempEvents: EventInput[] = [];
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
@@ -53,22 +50,18 @@ export class CalendarComponent implements OnInit {
     if (email) {
       try {
         const trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
-
         console.log('trabajador:', trabajador);
 
         if (trabajador) {
           const rangosHorarios = await this.apiService.obtenerRangosHorarios(trabajador.idTrabajador).toPromise();
-
           if (rangosHorarios) {
-            const eventosGuardados = rangosHorarios.map(rangoHorario => ({
+            this.calendarEvents = rangosHorarios.map(rangoHorario => ({
               start: rangoHorario.fechaHoraInicio,
               end: rangoHorario.fechaHoraFin,
               allDay: false,
               backgroundColor: rangoHorario.verificado ? '#576f72' : '#7d9d9c',
               title: rangoHorario.verificado ? `${trabajador.nombre} ${trabajador.apellido} --Verificado--` : `${trabajador.nombre} ${trabajador.apellido}`
             }));
-
-            this.calendarEvents = eventosGuardados;
             this.calendarOptions.events = this.calendarEvents;
           }
         }
@@ -77,7 +70,6 @@ export class CalendarComponent implements OnInit {
       }
     }
   }
-
 
   handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo.view.calendar;
@@ -91,18 +83,15 @@ export class CalendarComponent implements OnInit {
     };
 
     this.tempEvents.push(newEvent);
-
     calendarApi.addEvent(newEvent);
   }
 
   saveEvents() {
     if (window.confirm('Está a punto de guardar su horario y ya no podrá ser modificado, ¿Desea continuar?')) {
-      const savedEvents = this.tempEvents.map(event => ({ ...event, backgroundColor: '#576f72' }));
+      const savedEvents = this.tempEvents.map(event => ({ ...event, backgroundColor: '#7d9d9c' }));
 
       this.calendarEvents = [...this.calendarEvents, ...savedEvents];
-
       this.tempEvents = [];
-
       this.calendarOptions.events = this.calendarEvents;
 
       const email = this.authService.getEmail();
@@ -115,21 +104,16 @@ export class CalendarComponent implements OnInit {
   async handleSaveEventRequests(email: string, savedEvents: EventInput[]) {
     try {
       const trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
-
       if (trabajador) {
-        const apiCalls = savedEvents.map(event => {
+        await Promise.all(savedEvents.map(event => {
           const rangoHorario: RangoHorario = {
             fechaHoraInicio: event.start as string,
             fechaHoraFin: event.end as string,
             verificado: false
           };
           return this.apiService.insertarRangoHorario(trabajador.idTrabajador, rangoHorario).toPromise();
-        });
-
-        if (apiCalls.length > 0) {
-          await Promise.all(apiCalls);
-          console.log('Eventos guardados exitosamente');
-        }
+        }));
+        console.log('Eventos guardados exitosamente');
       } else {
         console.error('No se encontró el trabajador con el correo electrónico:', email);
       }
@@ -139,14 +123,13 @@ export class CalendarComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log("onSubmit llamado");
     this.saveEvents();
   }
 
   clearEvents() {
     if (this.calendarComponent?.getApi()) {
       const calendarApi = this.calendarComponent.getApi();
-      calendarApi.getEvents().forEach((event) => {
+      calendarApi.getEvents().forEach(event => {
         if (event.backgroundColor === '#e4dccf') {
           event.remove();
         }

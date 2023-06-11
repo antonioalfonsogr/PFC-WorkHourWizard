@@ -10,16 +10,16 @@ import { Subscription } from 'rxjs';
 })
 export class NavbarComponent implements OnInit, OnDestroy {
 
-  isAuthenticated : boolean = false;
-  private authSub!: Subscription;  
+  isAuthenticated: boolean = false;
+  private authSub!: Subscription;
 
   constructor(
     private router: Router,
     private authService: AuthService
-    ) { }
+  ) { }
 
   ngOnInit(): void {
-    this.authSub = this.authService.authStatus$.subscribe(isAuthenticated => {
+    this.authSub = this.authService.authStatus$.subscribe((isAuthenticated: boolean) => {
       this.isAuthenticated = isAuthenticated;
     });
   }
@@ -28,11 +28,11 @@ export class NavbarComponent implements OnInit, OnDestroy {
     this.authSub.unsubscribe();
   }
 
-  infoTrabajador() {
+  infoTrabajador(): void {
     this.router.navigate(['/info-trabajador']);
   }
 
-  logOut() {
+  logOut(): void {
     this.authService.logout();
     this.router.navigate(['/login']);
   }

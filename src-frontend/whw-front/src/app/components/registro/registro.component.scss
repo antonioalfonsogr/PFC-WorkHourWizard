@@ -10,7 +10,6 @@
   text-align: center;
 
   .form-block {
-    width: 100%;
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
@@ -56,12 +55,7 @@
         &:last-child {
           margin-right: 0;
         }
-
-        &:hover {
-          background-color: #576f72;
-        }
       }
     }
   }
 }
-

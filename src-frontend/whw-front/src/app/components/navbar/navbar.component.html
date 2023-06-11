@@ -1,17 +1,15 @@
 <nav class="navbar">
   <div class="logo">
-    <a href="http://localhost:4200/">
+    <a routerLink="/">
       <img src="../../../assets/imgs/Logo.png" alt="Logo">
     </a>
   </div>
   <div class="navbar-links">
     <a *ngIf="isAuthenticated" routerLink="/edit-worker" class="navbar-link">
       <img src="../../../assets/imgs/usuario.png" alt="Icono Información del Usuario">
-    </a>    
+    </a>
     <a *ngIf="isAuthenticated" (click)="logOut()" class="navbar-link">
       <img src="../../../assets/imgs/logout.png" alt="Icono Log Out">
     </a>
   </div>
 </nav>
-
-

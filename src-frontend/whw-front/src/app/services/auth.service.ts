@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpResponse } from '@angular/common/http';
 import { Observable, BehaviorSubject, throwError } from 'rxjs';
 import { map, catchError } from 'rxjs/operators';
 import jwt_decode from 'jwt-decode';
@@ -16,7 +16,7 @@ export class AuthService {
 
   login(creds: Credentials): Observable<any> {
     return this.http.post('http://localhost:8080/api/login', creds, { observe: 'response' }).pipe(
-      map(response => {
+      map((response: HttpResponse<any>) => {
         const token = response.headers.get('Authorization')?.replace('Bearer ', '');
 
         if (token) {
@@ -26,11 +26,7 @@ export class AuthService {
 
         return response.body;
       }),
-      catchError((error: HttpErrorResponse) => {
-        console.error('Error logging in:', error.message);
-        this.authStatus.next(false);
-        return throwError(error);
-      })
+      catchError(this.handleError('Error logging in'))
     );
   }
 
@@ -59,12 +55,15 @@ export class AuthService {
 
   resetPassword(data: { email: string; newPassword: string }): Observable<any> {
     return this.http.put('http://localhost:8080/api/trabajador', data).pipe(
-      catchError((error: HttpErrorResponse) => {
-        console.error('Error resetting password:', error.message);
-        return throwError(error);
-      })
+      catchError(this.handleError('Error resetting password'))
     );
   }
+
+  private handleError(errorMessage: string) {
+    return (error: HttpErrorResponse) => {
+      console.error(errorMessage, error.message);
+      this.authStatus.next(false);
+      return throwError(error);
+    };
+  }
 }
-
-

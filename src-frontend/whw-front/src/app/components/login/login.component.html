@@ -2,13 +2,15 @@
   <div class="input-container">
     <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>EMAIL:</mat-label>
-      <input matInput type="email" id="email" placeholder="Introduzca su email..." class="custom-input" formControlName="email"/>
+      <input matInput type="email" id="email" placeholder="Introduzca su email..." class="custom-input"
+        formControlName="email" />
     </mat-form-field>
   </div>
   <div class="input-container">
     <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>CONTRASEÑA:</mat-label>
-      <input matInput type="password" id="password" placeholder="Introduzca su contraseña..." class="custom-input" formControlName="password"/>
+      <input matInput type="password" id="password" placeholder="Introduzca su contraseña..." class="custom-input"
+        formControlName="password" />
     </mat-form-field>
   </div>
   <div class="forgot-password">
@@ -22,44 +24,27 @@
   </div>
 </form>
 
-<form class="reset-password-form login-form" [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()" *ngIf="resetPasswordClicked">
+<form class="reset-password-form login-form" [formGroup]="resetPasswordForm" (ngSubmit)="resetPassword()"
+  *ngIf="resetPasswordClicked">
   <div class="input-container">
     <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>EMAIL:</mat-label>
-      <input matInput type="email" id="resetEmail" placeholder="Introduzca su email..." class="custom-input" formControlName="email"/>
+      <input matInput type="email" id="resetEmail" placeholder="Introduzca su email..." class="custom-input"
+        formControlName="email" />
     </mat-form-field>
   </div>
   <div class="input-container">
     <mat-form-field appearance="fill" class="my-input-focused custom-mat-form-field">
       <mat-label>CONTRASEÑA NUEVA:</mat-label>
-      <input matInput type="password" id="newPassword" placeholder="Introduzca su nueva contraseña..." class="custom-input" formControlName="newPassword"/>
+      <input matInput type="password" id="newPassword" placeholder="Introduzca su nueva contraseña..."
+        class="custom-input" formControlName="newPassword" />
     </mat-form-field>
   </div>
   <div class="button-container">
     <button mat-raised-button color="warn" class="cancel-button" (click)="cancelResetPassword()">CANCELAR</button>
   </div>
   <div class="button-container">
-    <button mat-raised-button color="primary" class="reset-password-button" [disabled]="!resetPasswordForm.valid">CAMBIAR CONTRASEÑA</button>
+    <button mat-raised-button color="primary" class="reset-password-button"
+      [disabled]="!resetPasswordForm.valid">CAMBIAR CONTRASEÑA</button>
   </div>
 </form>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -6,7 +6,7 @@ import { RegistroComponent } from './components/registro/registro.component';
 import { AdminComponent } from './components/admin/admin.component';
 import { CalendarComponent } from './components/calendar/calendar.component';
 import { EditWorkerComponent } from './components/edit-worker/edit-worker.component';
-import { GestorCalendarComponent } from './components/gestor-calendar/gestor-calendar.component';  
+import { GestorCalendarComponent } from './components/gestor-calendar/gestor-calendar.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,7 +17,7 @@ const routes: Routes = [
   { path: 'calendar', component: CalendarComponent },
   { path: 'edit-worker', component: EditWorkerComponent },
   { path: 'edit-worker/:idTrabajador', component: EditWorkerComponent },
-  { path: 'gestor-calendar', component: GestorCalendarComponent } 
+  { path: 'gestor-calendar', component: GestorCalendarComponent }
 ];
 
 @NgModule({

@@ -1,21 +1,15 @@
 <ng-container *ngIf="isGestor; else notGestorContent">
-    <div>
-      <div class="full-calendar">
-        <full-calendar #calendar [options]="calendarOptions"></full-calendar>
-      </div>
-      <div class="button-container">
-        <button (click)="clearEvents()" mat-raised-button color="primary" class="clear-button">LIMPIAR</button>
-        <button (click)="verifyEvents()" mat-raised-button color="primary" class="verify-button">VERIFICAR</button>
-      </div>
-    </div>
-  </ng-container>
-  
-  <ng-template #notGestorContent>
-    <div class="not-gestor-message">
-      Debes acceder como gestor para poder ver este contenido.
-    </div>
-  </ng-template>
-  
-  
+  <div class="full-calendar">
+    <full-calendar #calendar [options]="calendarOptions"></full-calendar>
+  </div>
+  <div class="button-container">
+    <button mat-raised-button color="primary" class="clear-button" (click)="clearEvents()">LIMPIAR</button>
+    <button mat-raised-button color="primary" class="verify-button" (click)="verifyEvents()">VERIFICAR</button>
+  </div>
+</ng-container>
 
-  
+<ng-template #notGestorContent>
+  <div class="not-gestor-message">
+    Debes acceder como gestor para poder ver este contenido.
+  </div>
+</ng-template>

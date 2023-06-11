@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Trabajador } from '../../models/trabajador.model';
-import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-edit-worker',
@@ -24,12 +23,12 @@ export class EditWorkerComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.editWorkerForm = this.fb.group({
-      nombre: ['', ],
-      apellido: ['', ],
+      nombre: ['',],
+      apellido: ['',],
       email: ['', [Validators.required, Validators.email]],
-      password: ['', ],
+      password: ['',],
       dni: ['', Validators.required],
-      telefono: ['', ],
+      telefono: ['',],
       cargo: ['', Validators.required],
       gestor: ['']
     });
@@ -43,7 +42,6 @@ export class EditWorkerComponent implements OnInit {
       this.getCurrentWorker();
     }
   }
-  
 
   getGestores() {
     this.apiService.getTrabajadores().subscribe(
@@ -68,18 +66,14 @@ export class EditWorkerComponent implements OnInit {
       }
     );
   }
-  
 
   getCurrentWorker() {
     const email = this.authService.getEmail();
-    console.log('Email obtenido:', email);
     if (email) {
       this.apiService.getTrabajadorByEmail(email).subscribe(
         (worker) => {
           this.worker = worker;
-          console.log('Trabajador obtenido:', this.worker);
           if (this.worker) {
-            console.log('Intentando obtener gestor para trabajador:', this.worker);
             this.getGestorForWorker();
             this.fillForm(this.worker);
           }
@@ -90,17 +84,15 @@ export class EditWorkerComponent implements OnInit {
       );
     }
   }
-  
+
   getGestorForWorker() {
     if (this.worker) {
       this.apiService.getGestor(this.worker).subscribe(
         (gestor) => {
-          console.log('Gestor obtenido:', gestor);
           if (gestor) {
             this.worker!.gestor = gestor;
             this.fillForm(this.worker!);
           } else {
-            console.log('Trabajador sin gestor, llenando formulario directamente');
             this.fillForm(this.worker!);
           }
         },
@@ -109,11 +101,10 @@ export class EditWorkerComponent implements OnInit {
         }
       );
     } else {
-      console.log('Trabajador nulo, llenando formulario directamente');
       this.fillForm(null);
     }
   }
-  
+
   fillForm(worker: Trabajador | null) {
     if (worker) {
       const gestorSeleccionado = this.gestores.find(gestor => gestor.idTrabajador === worker.gestor?.idTrabajador);
@@ -131,27 +122,24 @@ export class EditWorkerComponent implements OnInit {
   }
 
   onSubmit() {
-    if (this.editWorkerForm.valid) {
+    if (this.editWorkerForm.valid && this.worker) {
       let formValue = this.editWorkerForm.value;
-      if (this.worker) {
-        formValue = {...this.worker, ...formValue};
+      formValue = { ...this.worker, ...formValue };
 
-        // Comprueba si 'gestor' es una cadena vacía y, en caso afirmativo, establece a null
-        if (formValue.gestor === '') {
-          formValue.gestor = null;
-        }
-
-        this.apiService.updateTrabajador(formValue)
-          .subscribe(
-            response => {
-              console.log(response);
-              this.router.navigate(['']);
-            },
-            error => {
-              console.error(error);
-            }
-          );
+      if (formValue.gestor === '') {
+        formValue.gestor = null;
       }
+
+      this.apiService.updateTrabajador(formValue)
+        .subscribe(
+          response => {
+            console.log(response);
+            this.router.navigate(['']);
+          },
+          error => {
+            console.error(error);
+          }
+        );
     }
   }
 
@@ -161,19 +149,18 @@ export class EditWorkerComponent implements OnInit {
 
   confirmDelete() {
     const confirmationMessage = '¿Está seguro de eliminar al usuario ' + this.worker?.email + '?';
-  
-    if (window.confirm(confirmationMessage)) {
-      if (this.worker) {
-        this.apiService.deleteTrabajador(this.worker.idTrabajador).subscribe(
-          () => {
-            console.log('Trabajador eliminado con éxito');
-            this.router.navigate(['/'])
-          },
-          error => {
-            console.error('Error al eliminar el trabajador:', error);
-          }
-        );
-      }
+
+    if (window.confirm(confirmationMessage) && this.worker) {
+      this.apiService.deleteTrabajador(this.worker.idTrabajador).subscribe(
+        () => {
+          console.log('Trabajador eliminado con éxito');
+          this.router.navigate(['/'])
+        },
+        error => {
+          console.error('Error al eliminar el trabajador:', error);
+        }
+      );
     }
   }
 }
+

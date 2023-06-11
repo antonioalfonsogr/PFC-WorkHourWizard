@@ -49,15 +49,15 @@ export class GestorCalendarComponent implements OnInit {
       allDaySlot: false,
       timeZone: 'local'
     };
-  
+
     const email = this.authService.getEmail();
     if (email) {
       try {
         this.trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
-  
+
         if (this.trabajador && this.trabajador.cargo === 'GESTOR') {
           this.isGestor = true;
-  
+
           const trabajadoresACargo = this.trabajador.trabajadoresACargo;
           if (trabajadoresACargo) {
             for (const trabajadorACargo of trabajadoresACargo) {
@@ -75,13 +75,13 @@ export class GestorCalendarComponent implements OnInit {
                     idRangoHorario: rangoHorario.idRangoHorario
                   }
                 }));
-                
-  
+
+
                 this.calendarEvents = [...this.calendarEvents, ...eventosGuardados];
               }
             }
           }
-  
+
           this.calendarOptions.events = this.calendarEvents;
         }
       } catch (error) {
@@ -89,8 +89,8 @@ export class GestorCalendarComponent implements OnInit {
       }
     }
   }
-  
-  
+
+
   handleEventClick = (clickInfo: any) => {
     const event = clickInfo.event;
     if (event.extendedProps && !event.extendedProps.verificado) {
@@ -118,7 +118,7 @@ export class GestorCalendarComponent implements OnInit {
           updatedRangosHorarios.push(rangoHorario);
         }
       }
-  
+
       for (const rangoHorario of updatedRangosHorarios) {
         if (rangoHorario.trabajador && rangoHorario.idRangoHorario) {
           this.apiService.updateRangoHorario(rangoHorario.trabajador.idTrabajador, rangoHorario.idRangoHorario, rangoHorario).subscribe(
@@ -140,7 +140,7 @@ export class GestorCalendarComponent implements OnInit {
       }
     }
   }
-  
+
 
   clearEvents() {
     if (this.calendarComponent?.getApi()) {

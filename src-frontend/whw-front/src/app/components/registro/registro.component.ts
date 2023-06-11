@@ -19,12 +19,12 @@ export class RegistroComponent implements OnInit {
     private apiService: ApiService
   ) {
     this.registroForm = this.fb.group({
-      nombre: ['', ],
-      apellido: ['', ],
+      nombre: ['',],
+      apellido: ['',],
       email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required],
       dni: ['', Validators.required],
-      telefono: ['', ],
+      telefono: ['',],
       cargo: ['', Validators.required],
       gestor: ['']
     });
@@ -47,23 +47,21 @@ export class RegistroComponent implements OnInit {
 
   onSubmit() {
     if (this.registroForm.valid) {
-      let formValue = this.registroForm.value;
+      const formValue = this.registroForm.value;
 
-      // Comprueba si 'gestor' es una cadena vacía y, en caso afirmativo, establece a null
       if (formValue.gestor === '') {
         formValue.gestor = null;
       }
 
-      this.apiService.registerTrabajador(formValue)
-        .subscribe(
-          response => {
-            console.log(response);
-            this.router.navigate(['/login']);
-          },
-          error => {
-            console.error(error);
-          }
-        );
+      this.apiService.registerTrabajador(formValue).subscribe(
+        () => {
+          console.log('Registro exitoso');
+          this.router.navigate(['/login']);
+        },
+        (error) => {
+          console.error('Error al registrar trabajador:', error);
+        }
+      );
     }
   }
 

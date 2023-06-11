@@ -57,12 +57,11 @@ import { AuthInterceptor } from './helpers/auth.interceptor';
     ApiService,
     AuthService,
     {
-      provide: HTTP_INTERCEPTORS, 
-      useClass: AuthInterceptor, 
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
       multi: true
     }
   ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
-

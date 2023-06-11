@@ -1,4 +1,4 @@
-import { Component,inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -10,4 +10,3 @@ export class AppComponent {
   title = 'whw-front';
   http = inject(HttpClient);
 }
-

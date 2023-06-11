@@ -10,7 +10,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class AdminComponent implements OnInit {
   workerList: Trabajador[] = [];
-  cargo: any;
+  cargo: string | null = null;
   isAdmin: boolean = false;
 
   constructor(private apiService: ApiService, private authService: AuthService) { }
@@ -20,7 +20,7 @@ export class AdminComponent implements OnInit {
     this.getCargo();
     this.isAdmin = this.cargo === 'ADMIN';
     console.log("El cargo es: " + this.cargo);
-    if(this.isAdmin) {
+    if (this.isAdmin) {
       this.getWorkerList();
     }
   }
@@ -54,8 +54,3 @@ export class AdminComponent implements OnInit {
     this.cargo = this.authService.getCargo();
   }
 }
-
-
-
-
-

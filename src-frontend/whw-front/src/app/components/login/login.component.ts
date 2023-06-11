@@ -11,38 +11,41 @@ import { Credentials } from '../../models/trabajador.model';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  form: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', Validators.required)
-  });
-
-  resetPasswordForm: FormGroup = new FormGroup({
-    email: new FormControl('', [Validators.required, Validators.email]),
-    newPassword: new FormControl('', Validators.required)
-  });
-
+  form: FormGroup;
+  resetPasswordForm: FormGroup;
   resetPasswordClicked = false;
 
   constructor(
     private router: Router,
     private authService: AuthService,
     private apiService: ApiService
-  ) {}
+  ) {
+    this.form = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      password: new FormControl('', Validators.required)
+    });
 
-  login() {
-    console.log('form value', this.form.value);
-    this.authService.login(this.form.value as Credentials).subscribe(() => {
-      const userCargo = this.authService.getCargo();
-      if (userCargo === 'ADMIN') {
-        this.router.navigate(['/admin']);
-      } else if (userCargo === 'GESTOR') {
-        this.router.navigate(['/gestor-calendar']);
-      } else {
-        this.router.navigate(['/calendar']);
-      }
+    this.resetPasswordForm = new FormGroup({
+      email: new FormControl('', [Validators.required, Validators.email]),
+      newPassword: new FormControl('', Validators.required)
     });
   }
-  
+
+  login() {
+    if (this.form.valid) {
+      console.log('form value', this.form.value);
+      this.authService.login(this.form.value as Credentials).subscribe(() => {
+        const userCargo = this.authService.getCargo();
+        if (userCargo === 'ADMIN') {
+          this.router.navigate(['/admin']);
+        } else if (userCargo === 'GESTOR') {
+          this.router.navigate(['/gestor-calendar']);
+        } else {
+          this.router.navigate(['/calendar']);
+        }
+      });
+    }
+  }
 
   toggleResetPassword() {
     this.resetPasswordClicked = !this.resetPasswordClicked;
@@ -73,12 +76,3 @@ export class LoginComponent {
     this.resetPasswordClicked = false;
   }
 }
-
-
-
-
-
-
-
-
-
