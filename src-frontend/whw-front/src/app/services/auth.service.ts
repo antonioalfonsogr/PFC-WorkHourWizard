@@ -9,8 +9,8 @@ import { Credentials } from '../models/trabajador.model';
   providedIn: 'root'
 })
 export class AuthService {
-  private baseUrl = 'http://back:8080/api';
-  // private baseUrl = 'http://localhost:8080/api';
+//  private baseUrl = 'http://back:8080/api';
+   private baseUrl = 'http://localhost:8080/api';
 
   private authStatus = new BehaviorSubject<boolean>(this.isAuthenticated());
   authStatus$ = this.authStatus.asObservable();
