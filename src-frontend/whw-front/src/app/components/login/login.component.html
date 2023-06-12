@@ -13,6 +13,9 @@
         formControlName="password" />
     </mat-form-field>
   </div>
+  <span *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </span>
   <div class="forgot-password">
     <a (click)="toggleResetPassword()" class="custom-link">¿Ha olvidado su contraseña?</a>
   </div>
@@ -40,6 +43,9 @@
         class="custom-input" formControlName="newPassword" />
     </mat-form-field>
   </div>
+  <span *ngIf="errorMessage" class="error-message">
+    {{ errorMessage }}
+  </span>
   <div class="button-container">
     <button mat-raised-button color="warn" class="cancel-button" (click)="cancelResetPassword()">CANCELAR</button>
   </div>

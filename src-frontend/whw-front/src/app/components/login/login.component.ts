@@ -14,6 +14,7 @@ export class LoginComponent {
   form: FormGroup;
   resetPasswordForm: FormGroup;
   resetPasswordClicked = false;
+  errorMessage: string = '';
 
   constructor(
     private router: Router,
@@ -43,9 +44,13 @@ export class LoginComponent {
         } else {
           this.router.navigate(['/calendar']);
         }
-      });
+      },
+        error => {
+          this.errorMessage = 'Ha ocurrido un error al iniciar sesión. Por favor, intentelo de nuevo.';
+        });
     }
   }
+
 
   toggleResetPassword() {
     this.resetPasswordClicked = !this.resetPasswordClicked;

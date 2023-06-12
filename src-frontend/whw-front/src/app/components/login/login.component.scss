@@ -68,6 +68,12 @@
   max-width: 25rem;
 }
 
+.error-message {
+  color: #A8908D;
+
+  font-weight: bold;
+}
+
 @media (max-width: 600px) {
 
   .login-form,
