@@ -1,4 +1,4 @@
-version: '3'
+version: '3.9'
 
 services:
   mysql-db:
@@ -10,6 +10,8 @@ services:
       MYSQL_DATABASE: workhourwizard
       MYSQL_USER: user
       MYSQL_PASSWORD: user
+    networks:
+      - whw_network
 
   back:
     build:
@@ -17,16 +19,26 @@ services:
       dockerfile: Dockerfile
     depends_on:
       - mysql-db
+    ports:
+      - "8080:8080"
+    networks:
+      - whw_network
 
   front:
     build:
       context: ./whw-front
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "4200:80" 
     depends_on:
       - back
+    networks:
+      - whw_network
 
 volumes:
   db_data:
+
+networks:
+  whw_network:
+    driver: bridge
 

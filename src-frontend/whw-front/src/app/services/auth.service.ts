@@ -9,13 +9,17 @@ import { Credentials } from '../models/trabajador.model';
   providedIn: 'root'
 })
 export class AuthService {
+  private baseUrl = 'http://back:8080/api';
+  // private baseUrl = 'http://localhost:8080/api';
+
   private authStatus = new BehaviorSubject<boolean>(this.isAuthenticated());
   authStatus$ = this.authStatus.asObservable();
 
   constructor(private http: HttpClient) {}
 
   login(creds: Credentials): Observable<any> {
-    return this.http.post('http://localhost:8080/api/login', creds, { observe: 'response' }).pipe(
+    const url = `${this.baseUrl}/login`;
+    return this.http.post(url, creds, { observe: 'response' }).pipe(
       map((response: HttpResponse<any>) => {
         const token = response.headers.get('Authorization')?.replace('Bearer ', '');
 
@@ -54,7 +58,8 @@ export class AuthService {
   }
 
   resetPassword(data: { email: string; newPassword: string }): Observable<any> {
-    return this.http.put('http://localhost:8080/api/trabajador', data).pipe(
+    const url = `${this.baseUrl}/trabajador`;
+    return this.http.put(url, data).pipe(
       catchError(this.handleError('Error resetting password'))
     );
   }
