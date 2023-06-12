@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.ZonedDateTime;
 import java.util.Objects;
 
 @Entity
@@ -16,10 +17,10 @@ public class RangoHorario {
   private Long idRangoHorario;
 
   @Column(name = "fecha_hora_inicio", nullable = false)
-  private LocalDateTime fechaHoraInicio;
+  private ZonedDateTime fechaHoraInicio;
 
   @Column(name = "fecha_hora_fin", nullable = false)
-  private LocalDateTime fechaHoraFin;
+  private ZonedDateTime fechaHoraFin;
 
   @Column(name = "verificado")
   private Boolean verificado;
@@ -32,12 +33,7 @@ public class RangoHorario {
   // Constructores
   public RangoHorario() {}
 
-  public RangoHorario(
-          Long idRangoHorario,
-          LocalDateTime fechaHoraInicio,
-          LocalDateTime fechaHoraFin,
-          Boolean verificado,
-          Trabajador trabajador) {
+  public RangoHorario(Long idRangoHorario, ZonedDateTime fechaHoraInicio, ZonedDateTime fechaHoraFin, Boolean verificado, Trabajador trabajador) {
     this.idRangoHorario = idRangoHorario;
     this.fechaHoraInicio = fechaHoraInicio;
     this.fechaHoraFin = fechaHoraFin;
@@ -54,19 +50,19 @@ public class RangoHorario {
     this.idRangoHorario = idRangoHorario;
   }
 
-  public LocalDateTime getFechaHoraInicio() {
+  public ZonedDateTime getFechaHoraInicio() {
     return fechaHoraInicio;
   }
 
-  public void setFechaHoraInicio(LocalDateTime fechaHoraInicio) {
+  public void setFechaHoraInicio(ZonedDateTime fechaHoraInicio) {
     this.fechaHoraInicio = fechaHoraInicio;
   }
 
-  public LocalDateTime getFechaHoraFin() {
+  public ZonedDateTime getFechaHoraFin() {
     return fechaHoraFin;
   }
 
-  public void setFechaHoraFin(LocalDateTime fechaHoraFin) {
+  public void setFechaHoraFin(ZonedDateTime fechaHoraFin) {
     this.fechaHoraFin = fechaHoraFin;
   }
 

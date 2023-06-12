@@ -9,6 +9,7 @@ import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { Trabajador } from '../../models/trabajador.model';
 import { RangoHorario } from '../../models/rangohorario.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-gestor-calendar',
@@ -65,8 +66,8 @@ export class GestorCalendarComponent implements OnInit {
               if (rangosHorarios) {
                 const eventosGuardados = rangosHorarios.map((rangoHorario) => ({
                   title: `${trabajadorACargo.nombre} ${trabajadorACargo.apellido}` + (rangoHorario.verificado ? ' -Verificado-' : ''),
-                  start: new Date(rangoHorario.fechaHoraInicio),
-                  end: new Date(rangoHorario.fechaHoraFin),
+                  start: moment.utc(rangoHorario.fechaHoraInicio).local().toDate(),
+                  end: moment.utc(rangoHorario.fechaHoraFin).local().toDate(),
                   allDay: false,
                   backgroundColor: rangoHorario.verificado ? '#576f72' : '#7d9d9c',
                   extendedProps: {
@@ -75,7 +76,6 @@ export class GestorCalendarComponent implements OnInit {
                     idRangoHorario: rangoHorario.idRangoHorario
                   }
                 }));
-
 
                 this.calendarEvents = [...this.calendarEvents, ...eventosGuardados];
               }
@@ -110,8 +110,8 @@ export class GestorCalendarComponent implements OnInit {
           const trabajadorACargo = this.trabajador?.trabajadoresACargo.find(t => t.idTrabajador === event.extendedProps!['trabajadorId']);
           const rangoHorario: RangoHorario = {
             idRangoHorario: event.extendedProps!['idRangoHorario'] as number,
-            fechaHoraInicio: (event.start as Date).toISOString(),
-            fechaHoraFin: (event.end as Date).toISOString(),
+            fechaHoraInicio: moment.utc(event.start as Date).format(),
+            fechaHoraFin: moment.utc(event.end as Date).format(),
             verificado: true,
             trabajador: trabajadorACargo || undefined
           };

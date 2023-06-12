@@ -8,6 +8,7 @@ import { FullCalendarComponent } from '@fullcalendar/angular';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
 import { RangoHorario } from '../../models/rangohorario.model';
+import * as moment from 'moment';
 
 @Component({
   selector: 'app-calendar',
@@ -56,8 +57,8 @@ export class CalendarComponent implements OnInit {
           const rangosHorarios = await this.apiService.obtenerRangosHorarios(trabajador.idTrabajador).toPromise();
           if (rangosHorarios) {
             this.calendarEvents = rangosHorarios.map(rangoHorario => ({
-              start: rangoHorario.fechaHoraInicio,
-              end: rangoHorario.fechaHoraFin,
+              start: moment.utc(rangoHorario.fechaHoraInicio).local().toDate(),
+              end: moment.utc(rangoHorario.fechaHoraFin).local().toDate(),
               allDay: false,
               backgroundColor: rangoHorario.verificado ? '#576f72' : '#7d9d9c',
               title: rangoHorario.verificado ? `${trabajador.nombre} ${trabajador.apellido} --Verificado--` : `${trabajador.nombre} ${trabajador.apellido}`
@@ -70,14 +71,14 @@ export class CalendarComponent implements OnInit {
       }
     }
   }
-
+  
   handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
 
     const newEvent = {
-      start: selectInfo.start.toISOString(),
-      end: selectInfo.end.toISOString(),
+      start: selectInfo.start,
+      end: selectInfo.end,
       allDay: selectInfo.allDay,
       backgroundColor: '#e4dccf',
     };
@@ -107,8 +108,8 @@ export class CalendarComponent implements OnInit {
       if (trabajador) {
         await Promise.all(savedEvents.map(event => {
           const rangoHorario: RangoHorario = {
-            fechaHoraInicio: event.start as string,
-            fechaHoraFin: event.end as string,
+            fechaHoraInicio: moment.utc(event.start).local().toDate(),
+            fechaHoraFin: moment.utc(event.end).local().toDate(),
             verificado: false
           };
           return this.apiService.insertarRangoHorario(trabajador.idTrabajador, rangoHorario).toPromise();

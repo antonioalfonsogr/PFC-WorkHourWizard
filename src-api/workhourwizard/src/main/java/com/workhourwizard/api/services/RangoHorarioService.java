@@ -45,22 +45,12 @@ public class RangoHorarioService {
     Trabajador trabajador = trabajadorRepository.findById(idTrabajador)
             .orElseThrow(() -> new NoSuchElementException("Trabajador no encontrado"));
 
-    // Obtener la zona horaria local
-    ZoneId zonaHorariaLocal = ZoneId.systemDefault();
-
-    // Convertir las fechas y horas al formato correcto con la zona horaria local
-    ZonedDateTime fechaHoraInicioLocal = rangoHorario.getFechaHoraInicio().atZone(zonaHorariaLocal);
-    ZonedDateTime fechaHoraFinLocal = rangoHorario.getFechaHoraFin().atZone(zonaHorariaLocal);
-
-    // Establecer las fechas y horas convertidas
-    rangoHorario.setFechaHoraInicio(fechaHoraInicioLocal.toLocalDateTime());
-    rangoHorario.setFechaHoraFin(fechaHoraFinLocal.toLocalDateTime());
-
     rangoHorario.setTrabajador(trabajador);
     rangoHorario.setVerificado(false);
 
     return rangoHorarioRepository.save(rangoHorario);
   }
+
 
   /**
    * Actualiza un rango horario existente.
