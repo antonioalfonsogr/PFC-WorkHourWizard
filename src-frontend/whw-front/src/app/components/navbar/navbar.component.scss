@@ -32,3 +32,16 @@
 .navbar-link img {
   height: 3.5rem;
 }
+
+@media (max-width: 600px) {
+
+  .logo {
+    position: absolute;
+    left: 30%;
+    transform: translateX(-50%);
+  }
+
+  .logo img {
+    height: 15rem;
+  }
+}

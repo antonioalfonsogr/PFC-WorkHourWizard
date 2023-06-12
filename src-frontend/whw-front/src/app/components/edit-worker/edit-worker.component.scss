@@ -89,3 +89,35 @@
 .delete-button:hover {
   color: #576f72;
 }
+
+@media (max-width: 600px) {
+  .edit-form {
+    width: 90%;
+  }
+
+  .edit-form .form-block .input-container {
+    width: 100%;
+  }
+
+  .edit-form .button-container .button-group .cancel-button,
+  .edit-form .button-container .button-group .submit-button {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .edit-form .button-container .button-group .cancel-button:last-child,
+  .edit-form .button-container .button-group .submit-button:last-child {
+    margin-right: 0;
+  }
+
+  .delete-button {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .edit-form {
+    width: 90%;
+  }
+}

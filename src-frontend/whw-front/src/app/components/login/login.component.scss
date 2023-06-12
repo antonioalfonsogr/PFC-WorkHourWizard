@@ -67,3 +67,35 @@
   width: 100%;
   max-width: 25rem;
 }
+
+@media (max-width: 600px) {
+
+  .login-form,
+  .reset-password-form {
+    width: 100%;
+    padding: 1rem;
+  }
+
+  .input-container {
+    margin-bottom: 0.5rem;
+  }
+
+  .custom-input,
+  .login-button,
+  .reset-password-button,
+  .cancel-button {
+    max-width: 100%;
+  }
+
+  .login-button,
+  .reset-password-button,
+  .cancel-button {
+    padding: 1rem 0.5rem;
+    font-size: 0.8rem;
+  }
+
+  .forgot-password a,
+  .register-link a {
+    font-size: 0.8rem;
+  }
+}

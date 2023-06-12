@@ -59,3 +59,31 @@
     }
   }
 }
+
+@media (max-width: 600px) {
+  .register-form {
+    width: 90%;
+  }
+
+  .register-form .form-block .input-container {
+    width: 100%;
+  }
+
+  .register-form .button-container .button-group .cancel-button,
+  .register-form .button-container .button-group .submit-button {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 1rem;
+  }
+
+  .register-form .button-container .button-group .cancel-button:last-child,
+  .register-form .button-container .button-group .submit-button:last-child {
+    margin-right: 0;
+  }
+}
+
+@media (max-width: 900px) {
+  .register-form {
+    width: 90%;
+  }
+}

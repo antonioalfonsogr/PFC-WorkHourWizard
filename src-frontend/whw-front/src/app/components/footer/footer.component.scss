@@ -28,3 +28,18 @@
   margin-top: 0.5rem;
   font-size: 1rem;
 }
+
+@media (max-width: 600px) {
+  .icon-link {
+    margin: 1rem;
+  }
+
+  .icon {
+    width: 2rem;
+    height: 2rem;
+  }
+
+  .icon-text {
+    font-size: 0.8rem;
+  }
+}

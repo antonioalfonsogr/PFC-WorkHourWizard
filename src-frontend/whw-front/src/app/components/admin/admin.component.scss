@@ -46,3 +46,42 @@ mat-form-field.double-width {
 .not-admin-message {
   font-size: 1.2em;
 }
+
+@media (max-width: 600px) {
+  .worker-item {
+    flex-direction: column;
+  }
+
+  .worker-list,
+  .not-admin-message {
+    width: 95%;
+    padding: 1rem;
+  }
+
+  mat-form-field {
+    margin-top: 1rem;
+    margin-left: 0;
+  }
+
+  mat-form-field.single-width,
+  mat-form-field.double-width {
+    max-width: none;
+  }
+
+  .edit-button {
+    margin-left: 0;
+    margin-top: 1rem;
+    padding: 1.25rem 0.5rem;
+    min-width: none;
+    width: 100%;
+  }
+}
+
+@media (max-width: 900px) {
+
+  .worker-list,
+  .not-admin-message {
+    width: 90%;
+    padding: 1rem;
+  }
+}
