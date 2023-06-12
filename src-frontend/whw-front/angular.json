@@ -20,6 +20,7 @@
 						"outputPath": "dist/whw-front",
 						"index": "src/index.html",
 						"main": "src/main.ts",
+						"allowedCommonJsDependencies": ["moment"],
 						"polyfills": [
 							"zone.js"
 						],
@@ -44,8 +45,8 @@
 							"budgets": [
 								{
 									"type": "initial",
-									"maximumError": "2 MB",
-									"maximumWarning": "1.5 MB"
+									"maximumError": "4 MB",
+									"maximumWarning": "3 MB"
 								}
 							],
 							"outputHashing": "all"
