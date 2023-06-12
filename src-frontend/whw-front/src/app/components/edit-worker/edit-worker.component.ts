@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { AuthService } from '../../services/auth.service';
@@ -24,12 +24,12 @@ export class EditWorkerComponent implements OnInit {
     private activatedRoute: ActivatedRoute
   ) {
     this.editWorkerForm = this.fb.group({
-      nombre: ['',],
-      apellido: ['',],
+      nombre: [''],
+      apellido: [''],
       email: ['', [Validators.required, Validators.email]],
-      password: ['',],
-      dni: ['', Validators.required],
-      telefono: ['',],
+      password: [''],
+      dni: ['', [Validators.required, this.validadorDNI]],
+      telefono: ['', [Validators.required, this.validadorTelefono]],
       cargo: ['', Validators.required],
       gestor: ['']
     });
@@ -211,5 +211,22 @@ export class EditWorkerComponent implements OnInit {
       );
     }
   }
+
+  validadorDNI(control: AbstractControl): {[key: string]: boolean} | null {
+    const dniFormatoValido = /^[0-9]{8}[a-zA-Z]$/;
+    if (!control.value.match(dniFormatoValido)) {
+      return { 'dniInvalido': true };
+    }
+    return null;
+  }
+  
+  validadorTelefono(control: AbstractControl): {[key: string]: boolean} | null {
+    const telefonoFormatoValido = /^[679]{1}[0-9]{8}$/;
+    if (!control.value.match(telefonoFormatoValido)) {
+      return { 'telefonoInvalido': true };
+    }
+    return null;
+  }
+
 }
 
