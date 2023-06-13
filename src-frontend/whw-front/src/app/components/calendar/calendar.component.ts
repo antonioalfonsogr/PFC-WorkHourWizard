@@ -22,8 +22,18 @@ export class CalendarComponent implements OnInit {
   calendarOptions: any;
   tempEvents: EventInput[] = [];
 
+  /**
+   * Constructor de CalendarComponent.
+   * 
+   * @param apiService Servicio de la API.
+   * @param authService Servicio de autenticación.
+   */
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
+  /**
+   * Se obtienen los eventos del calendario.
+   * 
+   */
   async ngOnInit() {
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -47,6 +57,7 @@ export class CalendarComponent implements OnInit {
       timeZone: 'local'
     };
 
+    // Obtenemos el email del usuario autenticado y cargamos los eventos del calendario
     const email = this.authService.getEmail();
     if (email) {
       try {
@@ -71,7 +82,11 @@ export class CalendarComponent implements OnInit {
       }
     }
   }
-  
+
+  /**
+   * Maneja la selección de fechas en el calendario, añadiendo un nuevo evento temporal.
+   * 
+   */
   handleDateSelect = (selectInfo: any) => {
     const calendarApi = selectInfo.view.calendar;
     calendarApi.unselect();
@@ -87,6 +102,10 @@ export class CalendarComponent implements OnInit {
     calendarApi.addEvent(newEvent);
   }
 
+  /**
+   * Guarda los eventos del calendario.
+   * 
+   */
   saveEvents() {
     if (window.confirm('Está a punto de guardar su horario y ya no podrá ser modificado, ¿Desea continuar?')) {
       const savedEvents = this.tempEvents.map(event => ({ ...event, backgroundColor: '#7d9d9c' }));
@@ -95,6 +114,7 @@ export class CalendarComponent implements OnInit {
       this.tempEvents = [];
       this.calendarOptions.events = this.calendarEvents;
 
+      // Obtiene el email del usuario autenticado y maneja las solicitudes de guardar eventos
       const email = this.authService.getEmail();
       if (email) {
         this.handleSaveEventRequests(email, savedEvents);
@@ -102,6 +122,10 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  /**
+   * Maneja las solicitudes de guardar eventos.
+   * 
+   */
   async handleSaveEventRequests(email: string, savedEvents: EventInput[]) {
     try {
       const trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
@@ -123,10 +147,18 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  /**
+   * Guarda los eventos al enviar el formulario.
+   * 
+   */
   onSubmit() {
     this.saveEvents();
   }
 
+  /**
+   * Elimina los eventos temporales.
+   * 
+   */
   clearEvents() {
     if (this.calendarComponent?.getApi()) {
       const calendarApi = this.calendarComponent.getApi();

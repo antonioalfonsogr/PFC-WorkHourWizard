@@ -26,8 +26,18 @@ export class GestorCalendarComponent implements OnInit {
   trabajador: Trabajador | undefined | null;
   isGestor: boolean = false;
 
+  /**
+   * Constructor del componente GestorCalendarComponent.
+   * 
+   * @param {ApiService} apiService 
+   * @param {AuthService} authService 
+   */
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
+  /**
+   * Configura el calendario y recupera los datos del trabajador actual y sus eventos.
+   * 
+   */
   async ngOnInit() {
     this.calendarOptions = {
       plugins: [dayGridPlugin, timeGridPlugin, interactionPlugin],
@@ -56,6 +66,7 @@ export class GestorCalendarComponent implements OnInit {
       try {
         this.trabajador = await this.apiService.getTrabajadorByEmail(email).toPromise();
 
+        // Si el trabajador es un gestor, se recuperan los eventos de los trabajadores a su cargo
         if (this.trabajador && this.trabajador.cargo === 'GESTOR') {
           this.isGestor = true;
 
@@ -91,8 +102,14 @@ export class GestorCalendarComponent implements OnInit {
   }
 
 
+  /**
+   * Manejador del clic en un evento del calendario.
+   * 
+   * @param {any} clickInfo - Información del clic
+   */
   handleEventClick = (clickInfo: any) => {
     const event = clickInfo.event;
+    // Si el evento no está verificado, se cambia su color y se marca como verificado
     if (event.extendedProps && !event.extendedProps.verificado) {
       event.setProp('backgroundColor', '#e4dccf');
       event.setExtendedProp('verificado', true);
@@ -102,6 +119,11 @@ export class GestorCalendarComponent implements OnInit {
   }
 
 
+  /**
+   * Verifica los eventos seleccionados.
+   * Actualiza el estado de los eventos en el servidor.
+   * 
+   */
   verifyEvents() {
     if (window.confirm('¿Está seguro de verificar los eventos seleccionados?')) {
       const updatedRangosHorarios: RangoHorario[] = [];
@@ -142,6 +164,11 @@ export class GestorCalendarComponent implements OnInit {
   }
 
 
+  /**
+   * Limpia los eventos seleccionados.
+   * Restablece el color de los eventos y los marca como no verificados.
+   * 
+   */
   clearEvents() {
     if (this.calendarComponent?.getApi()) {
       const calendarApi = this.calendarComponent.getApi();

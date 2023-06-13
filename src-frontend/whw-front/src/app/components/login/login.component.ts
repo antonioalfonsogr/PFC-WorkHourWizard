@@ -16,6 +16,13 @@ export class LoginComponent {
   resetPasswordClicked = false;
   errorMessage: string = '';
 
+  /**
+    * Constructor de LoginComponent. Se inicializan servicios y se crea el formulario de inicio de sesión.
+    * 
+    * @param router 
+    * @param authService 
+    * @param apiService 
+    */
   constructor(
     private router: Router,
     private authService: AuthService,
@@ -32,9 +39,12 @@ export class LoginComponent {
     });
   }
 
+  /**
+   * Método para iniciar sesión
+   * 
+   */
   login() {
     if (this.form.valid) {
-      console.log('form value', this.form.value);
       this.authService.login(this.form.value as Credentials).subscribe(() => {
         const userCargo = this.authService.getCargo();
         if (userCargo === 'ADMIN') {
@@ -51,17 +61,25 @@ export class LoginComponent {
     }
   }
 
-
+  /**
+   * Alternar visibilidad de formulario de cambio de contraseña
+   * 
+   */
   toggleResetPassword() {
     this.resetPasswordClicked = !this.resetPasswordClicked;
   }
 
+  /**
+   * Método para restablecer la contraseña
+   * 
+   */
   resetPassword() {
     if (this.resetPasswordForm.valid) {
       const confirmed = window.confirm('¿Está seguro de que desea cambiar su contraseña?');
       if (confirmed) {
         const email = this.resetPasswordForm.value.email;
         const newPassword = this.resetPasswordForm.value.newPassword;
+        // Actualizando la contraseña del trabajador en la base de datos
         this.apiService.getTrabajadorByEmail(email).subscribe((trabajador) => {
           if (trabajador) {
             trabajador.password = newPassword;
@@ -77,6 +95,10 @@ export class LoginComponent {
     }
   }
 
+  /**
+   * Cancelar cambio de contraseña
+   * 
+   */
   cancelResetPassword() {
     this.resetPasswordClicked = false;
   }

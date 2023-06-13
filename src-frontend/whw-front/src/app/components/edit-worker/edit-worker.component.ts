@@ -16,6 +16,15 @@ export class EditWorkerComponent implements OnInit {
   worker: Trabajador | null = null;
   location: any;
 
+  /**
+   * Constructor de EditWorkerComponent. Se inicializan servicios y se crea el formulario de edición.
+   * 
+   * @param {FormBuilder} fb
+   * @param {Router} router
+   * @param {ApiService} apiService
+   * @param {AuthService} authService
+   * @param {ActivatedRoute} activatedRoute
+   */
   constructor(
     private fb: FormBuilder,
     private router: Router,
@@ -35,6 +44,10 @@ export class EditWorkerComponent implements OnInit {
     });
   }
 
+  /**
+   * Se obtienen los trabajadores y se llena el formulario de edición.
+   * 
+   */
   ngOnInit() {
     const idTrabajador = parseInt(this.activatedRoute.snapshot.paramMap.get('idTrabajador')!, 10);
     if (!isNaN(idTrabajador)) {
@@ -42,11 +55,14 @@ export class EditWorkerComponent implements OnInit {
     } else {
       this.getCurrentWorker();
     }
-  
-    this.getGestores(); 
-  }
-  
 
+    this.getGestores();
+  }
+
+  /**
+   * Método que recupera la lista de gestores (trabajadores con cargo de gestor) de la API.
+   * 
+   */
   getGestores() {
     this.apiService.getTrabajadores().subscribe(
       (data) => {
@@ -58,6 +74,11 @@ export class EditWorkerComponent implements OnInit {
     );
   }
 
+  /**
+   * Método que recupera un trabajador por su ID.
+   * 
+   * @param {number} idTrabajador 
+   */
   getWorkerById(idTrabajador: number) {
     this.apiService.getTrabajadorById(idTrabajador).subscribe(
       (worker) => {
@@ -71,6 +92,10 @@ export class EditWorkerComponent implements OnInit {
     );
   }
 
+  /**
+   * Método que obtiene el trabajador actual.
+   * 
+   */
   getCurrentWorker() {
     const email = this.authService.getEmail();
     if (email) {
@@ -89,6 +114,10 @@ export class EditWorkerComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que obtiene el gestor asociado a un trabajador.
+   * 
+   */
   getGestorForWorker() {
     if (this.worker) {
       this.apiService.getGestor(this.worker).subscribe(
@@ -109,6 +138,11 @@ export class EditWorkerComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que llena el formulario con los datos de un trabajador.
+   * 
+   * @param {Trabajador | null} worker
+   */
   fillForm(worker: Trabajador | null) {
     if (worker) {
       const gestorSeleccionado = this.gestores.find(gestor => gestor.idTrabajador === worker.gestor?.idTrabajador);
@@ -125,6 +159,10 @@ export class EditWorkerComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que se activa al enviar el formulario.
+   * 
+   */
   onSubmit() {
     if (this.editWorkerForm.valid && this.worker) {
       let formValue = this.editWorkerForm.value;
@@ -162,6 +200,10 @@ export class EditWorkerComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que se activa al cancelar la edición.
+   * 
+   */
   onCancel() {
     const userCargo = this.authService.getCargo();
     switch (userCargo) {
@@ -181,6 +223,10 @@ export class EditWorkerComponent implements OnInit {
     }
   }
 
+  /**
+   * Método que se activa al confirmar la eliminación de un trabajador.
+   * 
+   */
   confirmDelete() {
     const confirmationMessage = '¿Está seguro de eliminar al usuario ' + this.worker?.email + '?';
 
@@ -212,15 +258,27 @@ export class EditWorkerComponent implements OnInit {
     }
   }
 
-  validadorDNI(control: AbstractControl): {[key: string]: boolean} | null {
+  /**
+   * Método de validación del DNI de un trabajador.
+   * 
+   * @param {AbstractControl} control
+   * @returns {{ [key: string]: boolean } | null}
+   */
+  validadorDNI(control: AbstractControl): { [key: string]: boolean } | null {
     const dniFormatoValido = /^[0-9]{8}[a-zA-Z]$/;
     if (!control.value.match(dniFormatoValido)) {
       return { 'dniInvalido': true };
     }
     return null;
   }
-  
-  validadorTelefono(control: AbstractControl): {[key: string]: boolean} | null {
+
+  /**
+   * Método de validación del teléfono de un trabajador.
+   * 
+   * @param {AbstractControl} control
+   * @returns {{ [key: string]: boolean } | null}
+   */
+  validadorTelefono(control: AbstractControl): { [key: string]: boolean } | null {
     const telefonoFormatoValido = /^[679]{1}[0-9]{8}$/;
     if (!control.value.match(telefonoFormatoValido)) {
       return { 'telefonoInvalido': true };
@@ -229,4 +287,3 @@ export class EditWorkerComponent implements OnInit {
   }
 
 }
-

@@ -13,11 +13,19 @@ export class RegistroComponent implements OnInit {
   registroForm: FormGroup;
   gestores: Trabajador[] = [];
 
+  /**
+   * Constructor del componente Registro.
+   * 
+   * @param fb 
+   * @param router 
+   * @param apiService 
+   */
   constructor(
     private fb: FormBuilder,
     private router: Router,
     private apiService: ApiService
   ) {
+    // Inicialización del formulario de registro con validaciones
     this.registroForm = this.fb.group({
       nombre: [''],
       apellido: [''],
@@ -30,10 +38,18 @@ export class RegistroComponent implements OnInit {
     });
   }
 
+  /**
+   * Obtiene la lista de gestores al iniciar el componente
+   * 
+   */
   ngOnInit() {
     this.getGestores();
   }
 
+  /**
+   * Recupera la lista de gestores del servidor
+   * 
+   */
   getGestores() {
     this.apiService.getTrabajadores().subscribe(
       (data) => {
@@ -45,6 +61,10 @@ export class RegistroComponent implements OnInit {
     );
   }
 
+  /**
+   * Envio del formulario de registro
+   * 
+   */
   onSubmit() {
     if (this.registroForm.valid) {
       const formValue = this.registroForm.value;
@@ -65,10 +85,20 @@ export class RegistroComponent implements OnInit {
     }
   }
 
+  /**
+   * Cancela el registro y redirige al login
+   * 
+   */
   onCancel() {
     this.router.navigate(['/login']);
   }
 
+  /**
+   * Validador para DNI
+   * 
+   * @param control
+   * @returns { [key: string]: boolean } | null
+   */
   validadorDNI(control: AbstractControl): {[key: string]: boolean} | null {
     const dniFormatoValido = /^[0-9]{8}[a-zA-Z]$/;
     if (!control.value.match(dniFormatoValido)) {
@@ -76,7 +106,13 @@ export class RegistroComponent implements OnInit {
     }
     return null;
   }
-  
+
+  /**
+   * Validador para teléfono
+   * 
+   * @param control
+   * @returns { [key: string]: boolean } | null
+   */
   validadorTelefono(control: AbstractControl): {[key: string]: boolean} | null {
     const telefonoFormatoValido = /^[679]{1}[0-9]{8}$/;
     if (!control.value.match(telefonoFormatoValido)) {
@@ -86,5 +122,3 @@ export class RegistroComponent implements OnInit {
   }
   
 }
-
-

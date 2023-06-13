@@ -13,18 +13,30 @@ export class AdminComponent implements OnInit {
   cargo: string | null = null;
   isAdmin: boolean = false;
 
+  /**
+   * Constructor del componente AdminComponent.
+   * 
+   * @param apiService Servicio de la API.
+   * @param authService Servicio de autenticación.
+   */
   constructor(private apiService: ApiService, private authService: AuthService) { }
 
+  /**
+   * Se obtiene el cargo del usuario y, si es administrador, se obtiene la lista de trabajadores.
+   * 
+   */
   ngOnInit() {
-    console.log('AdminComponent.onInit()');
     this.getCargo();
     this.isAdmin = this.cargo === 'ADMIN';
-    console.log("El cargo es: " + this.cargo);
     if (this.isAdmin) {
       this.getWorkerList();
     }
   }
 
+  /**
+   * Obtiene la lista de trabajadores del servicio de la API.
+   * 
+   */
   getWorkerList() {
     this.apiService.getTrabajadores().subscribe(
       (data) => {
@@ -37,6 +49,10 @@ export class AdminComponent implements OnInit {
     );
   }
 
+  /**
+   * Obtiene el gestor para cada trabajador de la lista de trabajadores.
+   * 
+   */
   getGestores() {
     for (let worker of this.workerList) {
       this.apiService.getGestor(worker).subscribe(
@@ -50,6 +66,10 @@ export class AdminComponent implements OnInit {
     }
   }
 
+  /**
+   * Obtiene el cargo del usuario autenticado.
+   * 
+   */
   getCargo() {
     this.cargo = this.authService.getCargo();
   }
